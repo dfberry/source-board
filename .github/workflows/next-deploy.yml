@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  APPLICATION_PUBLISH_PROFILE: ${{ secrets.APP_PUBLISH_PROFILE }}
   WEBAPP_NAME: "source-board"
 
 jobs:
@@ -32,5 +31,5 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
-          publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
           package: ./build/standalone
