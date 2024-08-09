@@ -29,13 +29,17 @@ https://whateverittech.medium.com/authenticate-next-14-app-router-with-lucia-aut
 
 ## Restart with clean db and cookie
 
-* Delete cookie
-* Delete `source-board` db in pgAdmin
-* Create `source-board` db in pgAdmin
-* run `npm run db:generate`
-* run `npm run db:push`
-* run `npm run dev`
+- Delete cookie
+- Delete `source-board` db in pgAdmin
+- Create `source-board` db in pgAdmin
+- run `npm run db:generate`
+- run `npm run db:push`
+- run `npm run dev`
 
 ## Session clean up
 
 Old sessions are kept around, you'll need to handle cleanup of them yourself. In terms of knowing which session to return, it doesn't. If you don't send a cookie back with a session ID Lucia treats you as having no session. And if you log in again a new one is simple created
+
+## Resources
+
+https://medium.com/@dileepa.mabulage/deploying-a-next-js-14-app-to-azure-app-service-using-github-actions-f5119a56e9f4
