@@ -1,0 +1,1 @@
+az webapp deploy --subscription 19016922-4bf5-4c41-9553-8eff5da1500e --resource-group nextjs-github-app --name source-board --type zip --src-path source-board.zip

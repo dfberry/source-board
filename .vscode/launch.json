@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GitHub Samples",
+            "request": "launch",
+            "runtimeArgs": [
+                "--prefix",
+                "automation/sdk-sample",
+                "run",
+                "dev"
+            ],
+            "runtimeExecutable": "npm",
+            "type": "node"
+        },
+        {
+            "name": "Issues",
+            "request": "launch",
+            "runtimeArgs": [
+                "--prefix",
+                "automation/issues",
+                "run",
+                "dev"
+            ],
+            "runtimeExecutable": "npm",
+            "type": "node"
+        },
+        {
+            "name": "process",
+            "request": "launch",
+            "runtimeArgs": [
+                "--prefix",
+                "scripts/storage",
+                "run",
+                "process"
+            ],
+            "runtimeExecutable": "npm",
+            "type": "node"
+        },
+        {
+            "name": "Attach to Node Functions",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "preLaunchTask": "func: host start"
+        }
+    ]
+}

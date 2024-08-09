@@ -1,0 +1,28 @@
+{
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.formatOnType": false, // required
+    "editor.formatOnPaste": true, // optional
+    "editor.formatOnSave": true, // optional
+    "editor.formatOnSaveMode": "file", // required to format on save
+    "files.autoSave": "onFocusChange", // optional but recommended
+    "vs-code-prettier-eslint.prettierLast": false,
+    "[typescript]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+    "azureFunctions.deploySubpath": "originals",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectLanguageModel": 4,
+    "azureFunctions.projectSubpath": "originals/listen",
+    "azureFunctions.preDeployTask": "npm prune (functions)",
+    "[json]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    {
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  }
