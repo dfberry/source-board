@@ -43,3 +43,31 @@ Old sessions are kept around, you'll need to handle cleanup of them yourself. In
 ## Resources
 
 https://medium.com/@dileepa.mabulage/deploying-a-next-js-14-app-to-azure-app-service-using-github-actions-f5119a56e9f4
+
+## GitHub Action deploy to Azure App Service
+
+- Enable basic auth
+
+  ```
+  az webapp auth-classic update \
+  --subscription 19016922-4bf5-4c41-9553-8eff5da1500e \
+  --resource-group nextjs-github-app \
+  --name source-board \
+  --ids "/subscriptions/19016922-4bf5-4c41-9553-8eff5da1500e/resourceGroups/nextjs-github-app/providers/Microsoft.Web/sites/source-board" \
+  --enabled true
+  ```
+
+- Download publish profile from Azure portal (XML format)
+- Save to GitHub as repo secret
+- Reference repo secret
+
+  ```
+  - name: "Deploy to Azure Web App"
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+      app-name: ${{ env.WEBAPP_NAME }}
+      slot-name: "Production"
+      publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
+      package: ./build/standalone
+  ```
