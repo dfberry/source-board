@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "PORT=8080 node server.js",
+		"start": "node server.js",
 		"lint": "next lint --fix",
 		"test": "jest",
 		"db:generate": "drizzle-kit generate",
