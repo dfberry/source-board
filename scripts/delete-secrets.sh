@@ -6,11 +6,11 @@ AZURE_RESOURCE_GROUP="nextjs-github-app"
 AZURE_CONTAINER_APP_NAME="dfberryapp"
 
 # Get the list of environment variables
-# az containerapp update \
-#   --subscription $AZURE_SUBSCRIPTION_ID \
-#   --name $AZURE_CONTAINER_APP_NAME \
-#   --resource-group $AZURE_RESOURCE_GROUP \
-#   --remove-all-env-vars
+az containerapp update \
+  --subscription $AZURE_SUBSCRIPTION_ID \
+  --name $AZURE_CONTAINER_APP_NAME \
+  --resource-group $AZURE_RESOURCE_GROUP \
+  --remove-all-env-vars
 
 # Get the list of secrets
 secrets=$(az containerapp secret list \
@@ -21,19 +21,19 @@ secrets=$(az containerapp secret list \
 
 echo "Secrets: $secrets"
 
-# # Delete each secret
-# for secret in $secrets; do
+# Delete each secret
+for secret in $secrets; do
 
-#   echo "Removing secret $secret"
+  echo "Removing secret $secret"
 
   if [[ $secret == APP_* ]]; then
 
     echo "Removing secret $secret"
 
-    # az containerapp secret remove \
-    #   --subscription $AZURE_SUBSCRIPTION_ID \
-    #   --name $AZURE_CONTAINER_APP_NAME \
-    #   --resource-group $AZURE_RESOURCE_GROUP \
-    #   --secret-names $secret
+    az containerapp secret remove \
+      --subscription $AZURE_SUBSCRIPTION_ID \
+      --name $AZURE_CONTAINER_APP_NAME \
+      --resource-group $AZURE_RESOURCE_GROUP \
+      --secret-names $secret
   fi
-# done
+done
