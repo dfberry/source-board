@@ -14,7 +14,14 @@ transform_secret_name() {
 }
 
 # Read the .env.local file and set each value as a secret
-while IFS='=' read -r key value; do
+while IFS= read -r line || [ -n "$line" ]; do
+
+  # Split the line into key and value
+  key=$(echo "$line" | cut -d '=' -f 1)
+  value=$(echo "$line" | cut -d '=' -f 2-)
+
+  echo "Setting secret $key"
+
   # Remove quotes from the value if present
   value=$(echo $value | sed 's/^"//;s/"$//')
   
@@ -22,11 +29,11 @@ while IFS='=' read -r key value; do
   TRANSFORMED_KEY=$(transform_secret_name $key)
   
   # Set the secret in Azure Container App
-  # az containerapp secret set \
-  #   --subscription $AZURE_SUBSCRIPTION_ID \
-  #   --name $AZURE_CONTAINER_APP_NAME \
-  #   --resource-group $AZURE_RESOURCE_GROUP \
-  #   --secrets $TRANSFORMED_KEY=$value
+  az containerapp secret set \
+    --subscription $AZURE_SUBSCRIPTION_ID \
+    --name $AZURE_CONTAINER_APP_NAME \
+    --resource-group $AZURE_RESOURCE_GROUP \
+    --secrets $TRANSFORMED_KEY=$value
 
   # Set the environment variable in Azure Container App
   az containerapp update \
