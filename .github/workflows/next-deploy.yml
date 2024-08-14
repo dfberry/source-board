@@ -1,35 +1,67 @@
-name: Next.js deploy to Azure Web App
-
-on:
-  workflow_dispatch:
+name: Deploy to Azure Container App
 
 env:
-  WEBAPP_NAME: "source-board"
+  AZURE_CONTAINER_APP_NAME: dfberryapp
+  AZURE_GROUP_NAME: nextjs-github-app
+  AZURE_CONTAINER_REGISTRY: dfberryregistry
+  IMAGE_NAME: server-source-board-nextjs
+on:
+  # Automatically trigger it when detected changes in repo. Remove comments to enable
+  #push:
+  #  branches: 
+  #    [ main ]
+
+  # Allow mannually trigger 
+  workflow_dispatch:      
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
         with:
-          node-version: "20.x"
+          login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build
-          mv ./build/static ./build/standalone/build
-          mv ./public ./build/standalone
+      - name: Lowercase the repo name and username
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
-      - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - name: Build and push container image to Azure Container Registry
+        uses: docker/build-push-action@v2
         with:
-          app-name: ${{ env.WEBAPP_NAME }}
-          slot-name: "Production"
-          publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
-          package: ./build/standalone
+          push: true
+          tags: |
+            ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+          file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Extract repository name
+        id: extract_repo
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+            az containerapp update -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.REPO_NAME }}:${{ github.sha }}
