@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
-  distDir: "build",
+  // output: "standalone",
+  // distDir: "build",
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -12,7 +12,7 @@ const nextConfig = {
     ],
   },
   serverRuntimeConfig: {
-    port: 80,
+    port: 3000,
   },
 };
 
