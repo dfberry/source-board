@@ -13,7 +13,7 @@ AZURE_CONTAINER_REGISTRY_NAME="dfberryregistry"
 AZURE_CONTAINER_APP_ENV_NAME="dfberrynextjs-env"
 AZURE_CONTAINER_APP_NAME="dfberrynextjs"
 
-TARGET_PORT=3000
+TARGET_PORT=80
 
 # Create Azure resource group
 az group create --subscription $AZURE_SUBSCRIPTION_ID --name $AZURE_RESOURCE_GROUP --location $AZURE_LOCATION
