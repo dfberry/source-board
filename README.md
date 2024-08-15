@@ -71,3 +71,12 @@ https://medium.com/@dileepa.mabulage/deploying-a-next-js-14-app-to-azure-app-ser
       publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
       package: ./build/standalone
   ```
+
+## Troubleshooting
+
+### Ports
+
+The error TargetPort does not match the listening port indicates that the container is listening on a port different from the one that the Azure Container App is configured to use for incoming traffic.
+
+TargetPort is the port your Azure Container App expects to receive traffic on.
+ListeningPort is the port your application inside the container is actually using.
