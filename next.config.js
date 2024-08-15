@@ -12,7 +12,7 @@ const nextConfig = {
     ],
   },
   serverRuntimeConfig: {
-    port: 80,
+    port: process.env.PORT || 3000,
   },
 };
 
