@@ -1,7 +1,7 @@
 name: Deploy to Azure Container App
 
 env:
-  AZURE_CONTAINER_APP_NAME: dfberryapp
+  AZURE_CONTAINER_APP_NAME: dfberrynextjs
   AZURE_GROUP_NAME: nextjs-github-app
   AZURE_CONTAINER_REGISTRY: dfberryregistry
   IMAGE_NAME: server-source-board-nextjs
@@ -41,7 +41,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+            # ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
           file: ./Dockerfile
 
   deploy:
