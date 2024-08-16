@@ -6,12 +6,12 @@
 
 # Set variables - only use alphanumeric characters (no dashes or underscores)
 AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
-AZURE_RESOURCE_GROUP="nextjs-github-app"
+AZURE_RESOURCE_GROUP="nextjs-app-4"
 AZURE_LOCATION="eastus2"
 
-AZURE_CONTAINER_REGISTRY_NAME="dfberryregistry"
-AZURE_CONTAINER_APP_ENV_NAME="dfberrynextjs-env"
-AZURE_CONTAINER_APP_NAME="dfberrynextjs"
+AZURE_CONTAINER_REGISTRY_NAME="dfberrynextreg"
+AZURE_CONTAINER_APP_ENV_NAME="dfberrynextenv"
+AZURE_CONTAINER_APP_NAME="dfberrynextapp"
 
 TARGET_PORT=3000
 
@@ -33,5 +33,5 @@ az containerapp ingress enable \
 --name $AZURE_CONTAINER_APP_NAME \
 --resource-group $AZURE_RESOURCE_GROUP \
 --target-port $TARGET_PORT \
---transport http \
+--transport auto \
 --type external 

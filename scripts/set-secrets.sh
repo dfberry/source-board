@@ -3,9 +3,9 @@
 # SECRETS can only be 20 chars
 
 # Define the resource group and container app name
-AZURE_SUBSCRIPTION_ID=""
-AZURE_RESOURCE_GROUP=""
-AZURE_CONTAINER_APP_NAME=""
+AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
+AZURE_RESOURCE_GROUP="nextjs-app-4"
+AZURE_CONTAINER_APP_NAME="dfberrynextapp"
 
 # Function to transform secret names to valid Azure Container App secret names
 transform_secret_name() {

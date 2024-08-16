@@ -1,10 +1,10 @@
 name: Deploy to Azure Container App
 
 env:
-  AZURE_CONTAINER_APP_NAME: dfberrynextjs
-  AZURE_GROUP_NAME: nextjs-github-app
-  AZURE_CONTAINER_REGISTRY: dfberryregistry
-  IMAGE_NAME: server-source-board-nextjs
+  AZURE_CONTAINER_APP_NAME: dfberrynextapp
+  AZURE_GROUP_NAME: nextjs-app-4
+  AZURE_CONTAINER_REGISTRY: dfberrynextreg
+  IMAGE_NAME: sourceboardnextjs
 on:
   # Automatically trigger it when detected changes in repo. Remove comments to enable
   #push:
