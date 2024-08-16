@@ -12,7 +12,7 @@ RUN npm run build
 # ====================================
 FROM build as release
 
+# Expose port 3000
 EXPOSE 3000
-ENV HOSTNAME 0.0.0.0
 
 CMD ["npm", "run", "start"]
