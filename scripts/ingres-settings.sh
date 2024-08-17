@@ -4,10 +4,24 @@
 ## az login --use-device-code
 ##
 
-# Set variables - only use alphanumeric characters (no dashes or underscores)
-AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
-AZURE_RESOURCE_GROUP="nextjs-github-app"
-AZURE_CONTAINER_APP_NAME="dfberrynextjs"
+DOTENV_PATH="../.env.local"
+
+# Load environment variables from .env file into the script's environment
+if [ -f $DOTENV_PATH ]; then
+  set -a
+  source $DOTENV_PATH
+  set +a
+else
+  echo "Error: .env file not found at $DOTENV_PATH"
+  exit 1
+fi
+
+# Debug: Display all environment variables loaded from .env
+echo "Loaded environment variables from $DOTENV_PATH:"
+while IFS='=' read -r key value; do
+  echo "$key=$value"
+done < $DOTENV_PATH
+
 
 az containerapp ingress show \
 --subscription $AZURE_SUBSCRIPTION_ID \

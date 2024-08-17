@@ -2,10 +2,23 @@
 
 # SECRETS can only be 20 chars
 
-# Define the resource group and container app name
-AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
-AZURE_RESOURCE_GROUP="nextjs-app-4"
-AZURE_CONTAINER_APP_NAME="dfberrynextapp"
+DOTENV_PATH="../.env.local"
+
+# Load environment variables from .env file into the script's environment
+if [ -f $DOTENV_PATH ]; then
+  set -a
+  source $DOTENV_PATH
+  set +a
+else
+  echo "Error: .env file not found at $DOTENV_PATH"
+  exit 1
+fi
+
+# Debug: Display all environment variables loaded from .env
+echo "Loaded environment variables from $DOTENV_PATH:"
+while IFS='=' read -r key value; do
+  echo "$key=$value"
+done < $DOTENV_PATH
 
 # Function to transform secret names to valid Azure Container App secret names
 transform_secret_name() {
