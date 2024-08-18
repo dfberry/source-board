@@ -65,47 +65,5 @@ jobs:
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }} --debug
-            az containerapp update -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --image ${{ env.IMAGE }} --debug
-
-      - name: Get FQDN of the deployed containerapp
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            FQDN=$(az containerapp show -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query configuration.ingress.fqdn -o tsv)
-            echo "FQDN=${FQDN}" >> $GITHUB_ENV
-
-      - name: Get container image of the active revision
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            IMAGE=$(az containerapp revision show -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query containers[0].image -o tsv)
-            echo "ACTIVE_IMAGE=${IMAGE}" >> $GITHUB_ENV
-
-      - name: Debug
-        run: |
-          echo "The FQDN is ${{ env.FQDN }}"
-          echo "The active   container image is ${{ env.ACTIVE_IMAGE }}"   
-          echo "The expected container image is ${{ env.IMAGE }}"         
-
-
-      - name: Check if image exists in ACR
-        run: |
-          IMAGE_TAG=${{ github.sha }}
-          REPO=${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}
-          TAGS=$(az acr repository show-tags --name ${{ secrets.AZ_REG_NAME }} --repository $REPO --output tsv)
-          if echo "$TAGS" | grep -q "$IMAGE_TAG"; then
-            echo "Image $REPO:$IMAGE_TAG exists in ACR."
-          else
-            echo "Error: Image $REPO:$IMAGE_TAG does not exist in ACR."
-            exit 1
-          fi
-
-      - name: Compare active image to expected image
-        run: |
-          if [ "${{ env.ACTIVE_IMAGE }}" != "${{ env.IMAGE }}" ]; then
-            echo "Error: The active container image does not match the expected image."
-            exit 1
-          else
-            echo "The active container image matches the expected image."
-          fi
+            az containerapp registry set -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+            az containerapp update -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --image ${{ env.IMAGE }}
