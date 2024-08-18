@@ -178,6 +178,12 @@ export async function githubAuthenticationCallback(
 }
 
 export const github = new GitHub(
-  process.env.GH_CLIENT_ID!,
-  process.env.GH_CLIENT_SECRET!,
+  process.env.GITHUB_CLIENT_ID!,
+  process.env.GITHUB_CLIENT_SECRET!,
+);
+
+console.log(
+  `auth.ts `,
+  process.env.GITHUB_CLIENT_ID,
+  process.env.GITHUB_CLIENT_SECRET,
 );
