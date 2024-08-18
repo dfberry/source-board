@@ -27,7 +27,7 @@ done < $DOTENV_PATH
 az ad sp create-for-rbac \
   --name "CICD" \
   --role contributor \
-  --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID \
+  --scopes /subscriptions/$AZ_SUB_ID \
   --sdk-auth > $OUTPUT_PATH
 
 echo "Service principal credentials saved to $OUTPUT_PATH"

@@ -45,16 +45,16 @@ while IFS= read -r line || [ -n "$line" ]; do
   
   # Set the secret in Azure Container App
   az containerapp secret set \
-    --subscription $AZURE_SUBSCRIPTION_ID \
-    --name $AZURE_CONTAINER_APP_NAME \
-    --resource-group $AZURE_RESOURCE_GROUP \
+    --subscription $AZ_SUB_ID \
+    --name $AZ_APP_NAME \
+    --resource-group $AZ_RG \
     --secrets $TRANSFORMED_KEY=$value
 
   # Set the environment variable in Azure Container App
   az containerapp update \
-    --subscription $AZURE_SUBSCRIPTION_ID \
-    --name $AZURE_CONTAINER_APP_NAME \
-    --resource-group $AZURE_RESOURCE_GROUP \
+    --subscription $AZ_SUB_ID \
+    --name $AZ_APP_NAME \
+    --resource-group $AZ_RG \
     --set-env-vars $key=secretref:$TRANSFORMED_KEY
   
 done < ../.env.local

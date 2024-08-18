@@ -24,6 +24,6 @@ done < $DOTENV_PATH
 
 
 az containerapp ingress show \
---subscription $AZURE_SUBSCRIPTION_ID \
---name $AZURE_CONTAINER_APP_NAME \
---resource-group $AZURE_RESOURCE_GROUP 
+--subscription $AZ_SUB_ID \
+--name $AZ_APP_NAME \
+--resource-group $AZ_RG 

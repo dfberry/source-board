@@ -20,16 +20,16 @@ done < $DOTENV_PATH
 
 # Get the list of environment variables
 az containerapp update \
-  --subscription $AZURE_SUBSCRIPTION_ID \
-  --name $AZURE_CONTAINER_APP_NAME \
-  --resource-group $AZURE_RESOURCE_GROUP \
+  --subscription $AZ_SUB_ID \
+  --name $AZ_APP_NAME \
+  --resource-group $AZ_RG \
   --remove-all-env-vars
 
 # Get the list of secrets
 secrets=$(az containerapp secret list \
-  --subscription $AZURE_SUBSCRIPTION_ID \
-  --name $AZURE_CONTAINER_APP_NAME \
-  --resource-group $AZURE_RESOURCE_GROUP \
+  --subscription $AZ_SUB_ID \
+  --name $AZ_APP_NAME \
+  --resource-group $AZ_RG \
   --query "[].name" -o tsv)
 
 echo "Secrets: $secrets"
@@ -44,9 +44,9 @@ for secret in $secrets; do
     echo "Removing secret $secret"
 
     az containerapp secret remove \
-      --subscription $AZURE_SUBSCRIPTION_ID \
-      --name $AZURE_CONTAINER_APP_NAME \
-      --resource-group $AZURE_RESOURCE_GROUP \
+      --subscription $AZ_SUB_ID \
+      --name $AZ_APP_NAME \
+      --resource-group $AZ_RG \
       --secret-names $secret
   fi
 done

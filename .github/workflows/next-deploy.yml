@@ -1,7 +1,7 @@
 name: Deploy to Azure Container App
 
 env:
-  AZURE_CONTAINER_APP_NAME: dfberrynextapp
+  AZ_APP_NAME: dfberrynextapp
   AZURE_GROUP_NAME: nextjs-app-4
   AZURE_CONTAINER_REGISTRY: dfberrynextreg
   IMAGE_NAME: sourceboardnextjs
@@ -65,21 +65,21 @@ jobs:
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }} --debug
-            az containerapp update -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --image ${{ env.IMAGE }} --debug
+            az containerapp registry set -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }} --debug
+            az containerapp update -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --image ${{ env.IMAGE }} --debug
 
       - name: Get FQDN of the deployed containerapp
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            FQDN=$(az containerapp show -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query configuration.ingress.fqdn -o tsv)
+            FQDN=$(az containerapp show -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query configuration.ingress.fqdn -o tsv)
             echo "FQDN=${FQDN}" >> $GITHUB_ENV
 
       - name: Get container image of the active revision
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            IMAGE=$(az containerapp revision show -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query containers[0].image -o tsv)
+            IMAGE=$(az containerapp revision show -n ${{ env.AZ_APP_NAME }} -g ${{ env.AZURE_GROUP_NAME }} --query containers[0].image -o tsv)
             echo "ACTIVE_IMAGE=${IMAGE}" >> $GITHUB_ENV
 
       - name: Debug
@@ -93,7 +93,7 @@ jobs:
         run: |
           IMAGE_TAG=${{ github.sha }}
           REPO=${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}
-          TAGS=$(az acr repository show-tags --name ${{ secrets.AZURE_CONTAINER_REGISTRY_NAME }} --repository $REPO --output tsv)
+          TAGS=$(az acr repository show-tags --name ${{ secrets.AZ_REG_NAME }} --repository $REPO --output tsv)
           if echo "$TAGS" | grep -q "$IMAGE_TAG"; then
             echo "Image $REPO:$IMAGE_TAG exists in ACR."
           else

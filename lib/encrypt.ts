@@ -16,8 +16,8 @@ class EncryptionService {
 
   constructor() {
     this.algorithm = "aes-256-cbc";
-    this.key = Buffer.from(process.env.APP_ENCRYPTION_KEY!!, "hex");
-    this.iv = Buffer.from(process.env.APP_ENCRYPTION_IV!!, "hex");
+    this.key = Buffer.from(process.env.ENC_KEY!!, "hex");
+    this.iv = Buffer.from(process.env.ENC_IV!!, "hex");
   }
 
   encrypt(text: string): string {
