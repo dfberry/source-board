@@ -4,11 +4,12 @@ export default async function HomePage() {
 
 	const envVars = process.env;
 
+	console.log(envVars);
 	console.log(CONFIG);
 
 	return (
 		<div>
-			<div className="container mx-auto p-12 overflow-auto">
+			{/* <div className="container mx-auto p-12 overflow-auto">
 				<h1>Environment Variables</h1>
 				<div className="p-12">
 					{Object.entries(envVars)
@@ -31,7 +32,7 @@ export default async function HomePage() {
 							</div>
 						))}
 				</div>
-			</div>
+			</div> */}
 
 			<div className="flex justify-between mt-6">
 				<a className="bg-blue-500 text-white py-2 px-4 rounded-lg" href="/login/github">Sign in with GitHub</a>
