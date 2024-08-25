@@ -107,20 +107,34 @@ export default class GitHubIssuesService extends GitHubServiceBase {
   static async queryIssues(
     accessToken: string,
     searchParams: { [key in GitHubSearchDefaultQuery]?: string },
+    githubUserId: string,
   ): Promise<any> {
     if (!accessToken) {
       return Promise.reject(new Error("No access token"));
     }
     console.log(`GitHubIssuesService.queryIssues: accessToken=${accessToken}`);
 
-    const query = Object.entries(searchParams)
-      .map(([key, value]) => `${key}:${value}`)
-      .join("+");
+    // TBD: fix this query syntax
+    const query = Object.fromEntries(
+      Object.entries(searchParams).map(([key, value]) => [key, value]),
+    );
+    console.log(
+      `GitHubIssuesService.queryIssues: query=${JSON.stringify(query)}`,
+    );
+    const body = {
+      query: `${githubUserId} is:pr`,
+    };
+    console.log(`GitHubIssuesService.queryIssues: body=${body}`);
 
-    const url = `https://api.github.com/search/issues?q=${query}`;
+    const url = `${process.env.BACKEND_URL}/github/query/issue`;
     console.log(`Querying GitHub API: ${url}`);
 
-    const data = await GitHubServiceBase.fetchFromGitHub(url, accessToken);
+    const data = await GitHubServiceBase.fetchFromGitHub(
+      url,
+      accessToken,
+      "POST",
+      body,
+    );
     return data;
   }
 }

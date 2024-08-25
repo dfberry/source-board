@@ -34,7 +34,7 @@ export default async function QueryIssuesPage() {
 	};
 
 
-	const { items } = await GitHubIssuesService.queryIssues(accessToken, searchParams);
+	const { items } = await GitHubIssuesService.queryIssues(accessToken, searchParams, login);
 	//console.log(`QueryIssuesPage: items`, items);
 
 	if (!items || (Array.isArray(items) && items.length === 0)) {
