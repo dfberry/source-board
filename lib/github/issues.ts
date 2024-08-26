@@ -135,6 +135,7 @@ export default class GitHubIssuesService extends GitHubServiceBase {
       "POST",
       body,
     );
+
     return data;
   }
 }

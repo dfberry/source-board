@@ -193,7 +193,8 @@ export default class GitHubPrsService extends GitHubServiceBase {
   static async queryPrs(
     accessToken: string,
     searchParams: { [key in GitHubSearchDefaultQuery]?: string },
-  ): Promise<any[]> {
+    githubUserId: string,
+  ): Promise<any> {
     if (!accessToken) {
       return Promise.reject(new Error("No access token"));
     }
@@ -204,10 +205,23 @@ export default class GitHubPrsService extends GitHubServiceBase {
 
     console.log(`GitHubPrsService.queryPrs: query=${searchParams?.repo}`);
 
-    const url = `https://api.github.com/repos/${searchParams.repo}/pulls`;
-    console.log(`GitHubPrsService.queryPrs: url=${url}`);
+    const body = {
+      query: `${githubUserId} is:pr`,
+    };
+    console.log(
+      `GitHubIssuesService.queryIssues: body=${JSON.stringify(body)}`,
+    );
 
-    const data = await GitHubServiceBase.fetchFromGitHub(url, accessToken);
+    const url = `${process.env.BACKEND_URL}/github/query/issue`;
+    console.log(`GitHubPrsService.queryIssues: url=${url}`);
+
+    const data = await GitHubServiceBase.fetchFromGitHub(
+      url,
+      accessToken,
+      "POST",
+      body,
+    );
+
     return data;
   }
 }

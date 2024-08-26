@@ -3,7 +3,9 @@ import useRequireAuth from "@/hooks/useRequireAuth";
 import { getDbTokenByDbUserId } from "@/lib/db/db";
 import GitHubPrsService, { GitHubPullRequest, GitHubPrSearchParams, GitHubSearchDefaultQuery } from "@/lib/github/prs";
 import PrCard from "@/components/github/Pr";
-
+import { getLastDaysRange } from '@/lib/datetime';
+import { LastDaysReturn } from '@/lib/datetime';
+import GitHubUserService from '@/lib/github/user';
 export default async function QueryPrPage() {
 
 	console.log("QueryPage: Start");
@@ -25,8 +27,10 @@ export default async function QueryPrPage() {
 		console.log("QueryPrPage: No access token");
 		return null;
 	}
+	const { login } = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
+	const last30Days: LastDaysReturn = getLastDaysRange();
 
-	const items = await GitHubPrsService.queryPrs(accessToken, searchParams);
+	const { items } = await GitHubPrsService.queryPrs(accessToken, searchParams, login);
 
 	if (!items || (Array.isArray(items) && items.length === 0)) {
 		console.log("QueryPrPage: No items");
