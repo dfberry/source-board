@@ -3,7 +3,7 @@ import useRequireAuth from "@/hooks/useRequireAuth";
 import { getDbTokenByDbUserId } from "@/lib/db/db";
 import UserWatchRepoService from "@/lib/db/userWatchRepo";
 import GitHubStatusService, { GitHubRepoStats, GitHubStatsResult } from "@/lib/github/stats";
-import StatsCard from "@/components/github/Stats";
+import StatsListCard from "@/components/github/StatsList";
 import GitHubUserService from '@/lib/github/user';
 export default async function QueryStatsPage() {
 
@@ -34,11 +34,7 @@ export default async function QueryStatsPage() {
 		<>
 			<Suspense fallback={<p>Loading data...</p>}>
 				<h1 className="text-2xl font-bold mb-4">Stats</h1>
-				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
-					{reposStats.map((repoStatsResponse: GitHubStatsResult) => (
-						<StatsCard key={repoStatsResponse.repo_name} ownerAndRepo={repoStatsResponse.repo_name} stats={repoStatsResponse.stats} />
-					))}
-				</div>
+				<StatsListCard statsList={reposStats} />
 			</Suspense>
 		</>
 	);
