@@ -1,4 +1,8 @@
-# GitHub OAuth example in Next.js App router
+# Source Board
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dfberry/source-board/badge)](https://scorecard.dev/viewer/?uri=github.com/dfberry/source-board)
+
+## Database
 
 Uses SQLite (`main.db`) database.
 
