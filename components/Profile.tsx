@@ -69,20 +69,23 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 					</div>
 					<div id="feature-nav" className="flex justify-between items-center mt-4">
 						<Link prefetch={false} href={`/user/query/issues`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>Issues</span> {/* Add text to the button */}
+							<span>Issues</span>
 
 						</Link>
 						<Link prefetch={false} href={`/user/query/pr`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>PRs</span> {/* Add text to the button */}
+							<span>PRs</span>
 						</Link>
 						<Link prefetch={false} href={`/user/query/repos`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>Repos</span> {/* Add text to the button */}
+							<span>Repos</span>
+						</Link>
+						<Link prefetch={false} href={`/user/query/stats`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
+							<span>Stats</span>
 						</Link>
 					</div>
 					<div id="bottom-nav" className="flex justify-between items-center mt-4">
 						<Link prefetch={false} href={`https://github.com/${githubProfile.login}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center">
 							<FaGithub className="h-6 w-6 mr-2" />
-							<span>GitHub</span> {/* Add text to the button */}
+							<span>GitHub</span>
 						</Link>
 						<SignOutComponent />
 					</div>
