@@ -32,28 +32,21 @@ async function updateDbToken(
     .set({ encryptedAccessToken })
     .where(eq(tokenTable.userId, dbUserId))
     .execute();
-
-  console.log(`updateDbToken: `, updatedToken);
 }
 async function insertDbToken(
   dbUserId: string,
   accessToken: string,
 ): Promise<void> {
-  console.log(`insertDbToken: `, dbUserId, accessToken);
   if (!dbUserId || !accessToken)
     throw new Error("insertDbToken: Invalid arguments");
 
   const encryptor = new EncryptionService();
   const encryptedToken = encryptor.encrypt(accessToken);
-  console.log(`insertDbToken encryptedToken: `, encryptedToken);
-  console.log(`insertDbToken dbUserId: `, dbUserId);
 
   const { rowCount } = await db
     .delete(tokenTable)
     .where(eq(tokenTable.userId, dbUserId))
     .execute();
-
-  console.log(`insertDbToken deletedTokens rowcount: `, rowCount);
 
   const insertedToken = await db
     .insert(tokenTable)
@@ -62,8 +55,6 @@ async function insertDbToken(
       encryptedAccessToken: encryptedToken,
     })
     .execute();
-
-  console.log(`insertDbToken: `, insertedToken);
 }
 function convertGitHubUserToDatabaseUser(
   newDbUserId: string,
@@ -80,7 +71,6 @@ async function insertDbUser(
   dbUserId: string,
   githubUser: Pick<GitHubUser, "id" | "login">,
 ) {
-  console.log(`insertDbUser: `, dbUserId, githubUser);
   const encryptor = new EncryptionService();
 
   if (!dbUserId || !githubUser.id || !githubUser.login)
@@ -91,8 +81,6 @@ async function insertDbUser(
     githubId: encryptor.encrypt(githubUser.id.toString()),
     username: encryptor.encrypt(githubUser.login),
   };
-  console.log(`insertDbUser: `, newUser);
-
   await db.insert(userTable).values(newUser).execute();
 }
 /**
@@ -104,10 +92,7 @@ async function getDbUserByGithubId(
 ): Promise<DatabaseUser | null> {
   try {
     if (!githubId) throw new Error("getDbUserByGithubId: Invalid arguments");
-
-    console.log(`getDbUserByGithubId unencrypted GitHubId: ${githubId}`);
     const encryptedId = new EncryptionService().encrypt(githubId.toString());
-    console.log(`getDbUserByGithubId encrypted GitHubId: ${encryptedId}`);
 
     const row = await db
       .select()
@@ -124,7 +109,6 @@ async function getDbUserByGithubId(
 }
 
 async function getDbTokenByDbUserId(dbUserId: string): Promise<string | null> {
-  console.log(`getDbTokenByDbUserId encrypted user id: ${dbUserId}`);
   if (!dbUserId) throw new Error("getDbTokenByDbUserId: Invalid arguments");
 
   const row = await db
@@ -134,13 +118,10 @@ async function getDbTokenByDbUserId(dbUserId: string): Promise<string | null> {
     .execute();
 
   if (row.length === 0 || !row[0].encryptedAccessToken) {
-    console.log(`getDbTokenByDbUserId: No token found`);
     return null;
   }
   const encryptor = new EncryptionService();
   const decryptedToken = encryptor.decrypt(row[0].encryptedAccessToken);
-
-  console.log(`getDbTokenByDbUserId decrypted access token: ${decryptedToken}`);
 
   return decryptedToken;
 }
@@ -152,7 +133,6 @@ async function deleteDbTokenByDbUserId(dbUserId: string): Promise<void> {
     .delete(tokenTable)
     .where(eq(tokenTable.userId, dbUserId))
     .execute();
-  console.log(`deleteDbTokenByDbUserId: `, deletedTokens);
 }
 
 export {

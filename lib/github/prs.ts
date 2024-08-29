@@ -203,17 +203,11 @@ export default class GitHubPrsService extends GitHubServiceBase {
       .map(([key, value]) => `${key}:${value}`)
       .join("+");
 
-    console.log(`GitHubPrsService.queryPrs: query=${searchParams?.repo}`);
-
     const body = {
       query: `${githubUserId} is:pr`,
     };
-    console.log(
-      `GitHubIssuesService.queryIssues: body=${JSON.stringify(body)}`,
-    );
 
     const url = `${process.env.BACKEND_URL}/github/query/issue`;
-    console.log(`GitHubPrsService.queryIssues: url=${url}`);
 
     const data = await GitHubServiceBase.fetchFromGitHub(
       url,

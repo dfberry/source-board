@@ -12,8 +12,6 @@ export default class UserWatchRepoService {
       })
       .returning();
 
-    console.log("UserWatchRepoService.create: ", result);
-
     return result;
   }
 

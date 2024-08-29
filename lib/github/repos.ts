@@ -127,7 +127,6 @@ async function exampleUsage() {
 
     try {
         const issues = await GitHubRepoIssues.fetchIssues(params, accessToken);
-        console.log(issues);
     } catch (error) {
         console.error('Error fetching issues:', error);
     }
@@ -163,8 +162,6 @@ export default class GitHubRepoIssues {
 
     const url = `https://api.github.com/repos/${repo}/issues?created:${dateRange.start}..${dateRange.end}`;
 
-    console.log("GitHubRepoIssues.fetchIssues", { url, accessToken });
-
     const response = await fetch(url, {
       headers: {
         Authorization: `token ${accessToken}`,
@@ -173,15 +170,10 @@ export default class GitHubRepoIssues {
     });
 
     if (!response.ok) {
-      console.log("GitHubRepoIssues.fetchIssues", {
-        status: response.status,
-        statusText: response.statusText,
-      });
       throw new Error(`GitHub API request failed: ${response.statusText}`);
     }
 
     const data: GitHubIssue[] = await response.json();
-    //console.log('GitHubRepoIssues.fetchIssues', { data });
     return data;
   }
 }

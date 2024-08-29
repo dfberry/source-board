@@ -52,23 +52,16 @@ export default class GitHubUserService {
       },
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
-    console.log(
-      `getGithHubUserByUnencryptedAccessToken: ${JSON.stringify(githubUser)}`,
-    );
     return githubUser;
   }
   static async getGithHubUserBySessionResult(
     sessionResult: SessionResult,
   ): Promise<any> {
-    //console.log(`getGithHubUserBySessionResult sessionResult: ${JSON.stringify(sessionResult)}`);
     if (!sessionResult || !sessionResult.session?.userId)
       throw new Error("getGithHubUserBySessionResult: Invalid arguments");
 
     const accessToken = await getDbTokenByDbUserId(
       sessionResult.session.userId,
-    );
-    console.log(
-      `getGithHubUserBySessionResult decrypted accessToken: ${accessToken}`,
     );
     if (!accessToken)
       throw new Error("getGithHubUserBySessionResult: No access token found");
@@ -79,8 +72,6 @@ export default class GitHubUserService {
       },
     });
     const githubUser = await githubUserResponse.json();
-
-    //console.log(`getGithHubUserBySessionResult: ${JSON.stringify(githubUser)}`);
 
     return githubUser;
   }

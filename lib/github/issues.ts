@@ -112,22 +112,17 @@ export default class GitHubIssuesService extends GitHubServiceBase {
     if (!accessToken) {
       return Promise.reject(new Error("No access token"));
     }
-    console.log(`GitHubIssuesService.queryIssues: accessToken=${accessToken}`);
 
     // TBD: fix this query syntax
     const query = Object.fromEntries(
       Object.entries(searchParams).map(([key, value]) => [key, value]),
     );
-    console.log(
-      `GitHubIssuesService.queryIssues: query=${JSON.stringify(query)}`,
-    );
+
     const body = {
       query: `${githubUserId} is:issue`,
     };
-    console.log(`GitHubIssuesService.queryIssues: body=${body}`);
 
     const url = `${process.env.BACKEND_URL}/github/query/issue`;
-    console.log(`GitHubPrsService.queryIssues: url=${url}`);
 
     const data = await GitHubServiceBase.fetchFromGitHub(
       url,

@@ -24,7 +24,6 @@ export const lucia = new Lucia(adapter, {
     },
   },
   getUserAttributes: (attributes) => {
-    console.log("Auth attributes", attributes);
     return {
       githubId: attributes.githubId,
       username: attributes.username,
@@ -49,13 +48,12 @@ export class SessionService {
     }
 
     const result = await lucia.validateSession(sessionId);
-    console.log("Auth result", result);
 
     // next.js throws when you attempt to set cookie when rendering page
     try {
       if (result.session && result.session.fresh) {
         const sessionCookie = lucia.createSessionCookie(result.session.id);
-        console.log("sessionCookie", sessionCookie);
+
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
@@ -64,7 +62,7 @@ export class SessionService {
       }
       if (!result.session) {
         const sessionCookie = lucia.createBlankSessionCookie();
-        console.log("sessionCookie", sessionCookie);
+
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
@@ -108,18 +106,12 @@ export async function githubAuthenticationCallback(
   //const storedState = cookies().get("github_oauth_state")?.value ?? null;
   const storedState = SessionService.getStoredState("github_oauth_state");
 
-  console.log(`code: ${code}`);
-  console.log(`state: ${state}`);
-  console.log(`storedState: ${storedState}`);
-
   if (!code || !state || !storedState || state !== storedState) {
-    console.log(`returning 400`);
     return new Response(null, { status: 400 });
   }
 
   try {
     const tokens = await github.validateAuthorizationCode(code);
-    console.log("tokens", tokens);
 
     // get user by token to prove user exists and token works
     const githubUserResponse = await fetch("https://api.github.com/user", {
@@ -132,7 +124,6 @@ export async function githubAuthenticationCallback(
 
     // users exists in database
     if (existingDbUser?.githubId) {
-      console.log(`existingDbUser: ${JSON.stringify(existingDbUser)}`);
       await insertDbToken(existingDbUser.id, tokens.accessToken);
       await SessionService.createAndStoreSession(existingDbUser.id);
 
@@ -180,13 +171,4 @@ export async function githubAuthenticationCallback(
 export const github = new GitHub(
   process.env.GITHUB_CLIENT_ID!,
   process.env.GITHUB_CLIENT_SECRET!,
-  // {
-  //   enterpriseDomain: process.env.GH_REDIRECT_URI!,
-  // },
-);
-
-console.log(
-  `auth.ts `,
-  process.env.GITHUB_CLIENT_ID,
-  process.env.GITHUB_CLIENT_SECRET,
 );

@@ -10,10 +10,6 @@ type Props = {
 
 const UserWatchRepoItemComponent = ({ item, enableDelete, enableReportLink }: Props) => {
 
-    //console.log("UserWatchRepoItemComponent:item ", item);
-    console.log("UserWatchRepoItemComponent:enableDelete ", enableDelete);
-    console.log("UserWatchRepoItemComponent:enableReportLink ", enableReportLink);
-
     const [isPending, startTransition] = useTransition()
 
     if (!item) return

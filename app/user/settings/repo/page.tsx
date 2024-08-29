@@ -7,21 +7,14 @@ import { Suspense } from 'react';
 const getData = async (userId: string) => {
 
 	const userWatchRepos = await UserWatchRepoService.listByUserId(userId);
-
-	console.log(userWatchRepos);
 	return userWatchRepos;
 }
 
 export default async function RepoListPage() {
 
-	//console.log("RepoListPage: Start");
-
 	const { user, session, isAuthorized } = await useRequireAuth();
 	if (!isAuthorized) {
-		console.log("ProfilePage: Not authorized");
 		return null;
-	} else {
-		console.log("ProfilePage: Authorized");
 	}
 	const repos = await getData(session?.userId!);
 

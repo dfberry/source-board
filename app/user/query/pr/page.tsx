@@ -8,14 +8,9 @@ import { LastDaysReturn } from '@/lib/datetime';
 import GitHubUserService from '@/lib/github/user';
 export default async function QueryPrPage() {
 
-	console.log("QueryPage: Start");
-
 	const { user, session, isAuthorized } = await useRequireAuth();
 	if (!session || !isAuthorized) {
-		console.log("QueryPrPage: Not authorized");
 		return null;
-	} else {
-		console.log("QueryPrPage: Authorized");
 	}
 	const searchParams = {
 		author: 'diberry',
@@ -24,7 +19,6 @@ export default async function QueryPrPage() {
 	const accessToken = await getDbTokenByDbUserId(session?.userId);
 
 	if (!accessToken) {
-		console.log("QueryPrPage: No access token");
 		return null;
 	}
 	const { login } = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
@@ -33,7 +27,6 @@ export default async function QueryPrPage() {
 	const { items } = await GitHubPrsService.queryPrs(accessToken, searchParams, login);
 
 	if (!items || (Array.isArray(items) && items.length === 0)) {
-		console.log("QueryPrPage: No items");
 		return (
 			<>
 				<h1 className="text-2xl font-bold mb-4">Issues</h1>

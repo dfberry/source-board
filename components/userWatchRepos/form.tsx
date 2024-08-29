@@ -9,23 +9,19 @@ const regexOrgRepo = /^[^\/]+\/[^\/]+$/;
 const orgRepoSchema = z.string().regex(regexOrgRepo, "Invalid org/repo format");
 
 function validateRepoUrl(orgRepo: string) {
-    console.log(`validateRepoUrl start: ${orgRepo}`);
 
     try {
 
         orgRepoSchema.parse(orgRepo);
-        console.log(`validateRepoUrl: ${orgRepo}`);
 
         // Extract the org/repo part
         return { success: true, repo: orgRepo };
     } catch (e) {
-        console.log(`validateRepoUrl error: ${e}`);
+
         if (e instanceof z.ZodError) {
             e.errors.forEach((error) => {
                 console.error(`Validation error: ${error.message}`);
             });
-        } else {
-            console.error("Unexpected error:", e);
         }
         return { success: false, error: e };
     }
@@ -36,7 +32,6 @@ const NewRepoToWatchForm = () => {
     const formRef = useRef<HTMLFormElement>(null);
 
     const handleChange = () => {
-        console.log("NewRepoToWatchForm handleChange");
         if (error) {
             setError(null);
         }
@@ -44,17 +39,13 @@ const NewRepoToWatchForm = () => {
 
     async function action(formData: FormData) {
 
-        console.log("NewRepoToWatchForm action");
-
         const formValues = Object.fromEntries(formData.entries());
         const url = formValues["repo"] as string;
         const orgRepo = url.toLowerCase();
 
-        console.log("action url", url);
         const { success, error, repo } = validateRepoUrl(orgRepo)
 
         if (!success) {
-            console.log("action error validat", error);
             setError("The repository URL must conform to the GitHub format.");
             return;
         }
@@ -63,7 +54,6 @@ const NewRepoToWatchForm = () => {
             await CreateNewRepoToWatch(orgRepo);
             formRef?.current?.reset();
         } catch (e) {
-            console.log("action error", e);
             setError("The repository does not exist or is not accessible for this user.");
         }
     }

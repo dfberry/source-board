@@ -9,25 +9,18 @@ export const CreateNewRepoToWatch = async (newRepo: string) => {
   const { user, session, isAuthorized } = await useRequireAuth();
 
   if (!isAuthorized || !session) {
-    console.log("createNewRepoToWatch: Not authorized");
     return null;
-  } else {
-    console.log("createNewRepoToWatch: Authorized");
   }
   const service = new UserWatchRepoService();
 
   if (!newRepo || newRepo === "") {
-    console.log("createNewRepoToWatch: newRepo is empty");
     return null;
-  } else {
-    //console.log("newRepoToWatch: ", newRepo);
   }
   const accessToken = await getDbTokenByDbUserId(session?.userId);
 
   // verify db exists
   const repo = await GitHubRepoService.repoInfo(accessToken!, newRepo);
   if (!repo) {
-    console.log("createNewRepoToWatch: Repo not found");
     throw new Error("Repo not found");
   }
 
