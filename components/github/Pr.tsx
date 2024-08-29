@@ -11,7 +11,6 @@ const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner }) => {
     const repoUrlParts = pr.html_url.split('/');
     const orgOrUser = repoUrlParts[3];
     const repoName = repoUrlParts[4];
-    console.log(`componentOwner: ${componentOwner}`);
 
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">

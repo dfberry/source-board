@@ -4,9 +4,6 @@ export default async function HomePage() {
 
 	const envVars = process.env;
 
-	console.log(envVars);
-	console.log(CONFIG);
-
 	return (
 		<div>
 			{/* <div className="container mx-auto p-12 overflow-auto">

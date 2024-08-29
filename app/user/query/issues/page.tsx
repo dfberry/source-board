@@ -10,19 +10,14 @@ import { LastDaysReturn } from '@/lib/datetime';
 
 export default async function QueryIssuesPage() {
 
-	console.log("QueryPage: Start");
 
 	const { user, session, isAuthorized } = await useRequireAuth();
 	if (!session || !isAuthorized) {
-		console.log("QueryIssuesPage: Not authorized");
 		return null;
-	} else {
-		console.log("QueryIssuesPage: Authorized");
 	}
 	const accessToken = await getDbTokenByDbUserId(session?.userId);
 
 	if (!accessToken) {
-		console.log("QueryIssuesPage: No access token");
 		return null;
 	}
 	const { login } = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
@@ -35,10 +30,8 @@ export default async function QueryIssuesPage() {
 
 
 	const { items } = await GitHubIssuesService.queryIssues(accessToken, searchParams, login);
-	//console.log(`QueryIssuesPage: items`, items);
 
 	if (!items || (Array.isArray(items) && items.length === 0)) {
-		console.log("QueryIssuesPage: No items");
 		return (
 			<>
 				<h1 className="text-2xl font-bold mb-4">Issues</h1>

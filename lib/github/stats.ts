@@ -47,12 +47,8 @@ export default class GitHubStatusService extends GitHubServiceBase {
     const body = {
       repos: reposList,
     };
-    console.log(
-      `GitHubStatusService.queryStatus: body=${JSON.stringify(body)}`,
-    );
 
     const url = `${process.env.BACKEND_URL}/github/repos/stats`;
-    console.log(`GitHubPrsService.queryIssues: url=${url}`);
 
     const data = await GitHubServiceBase.fetchFromGitHub(
       url,

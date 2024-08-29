@@ -8,5 +8,3 @@ export const CONFIG = {
   TEST_ENV: process.env.TEST_ENV!,
   MY_ENV: process.env.MY_ENV!,
 };
-
-console.log(`CONFIG `, CONFIG);

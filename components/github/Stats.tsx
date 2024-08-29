@@ -9,8 +9,6 @@ interface StatsCardProps {
 
 const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) => {
 
-    console.log(`componentOwner: ${ownerAndRepo}`);
-
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">
             <header className="mb-4 flex justify-between items-center">

@@ -11,7 +11,6 @@ const IssueCard: React.FC<IssueCardProps> = ({ issue, showRepoNameEachRow }) => 
     const repoUrlParts = issue.html_url.split('/');
     const orgOrUser = repoUrlParts[3];
     const repoName = repoUrlParts[4];
-    console.log(`showRepoNameEachRow: ${showRepoNameEachRow}`);
 
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">

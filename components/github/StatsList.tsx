@@ -25,8 +25,6 @@ const StatsListCard: React.FC<StatsListCardProps> = ({ reposStatsExtended }) => 
             // @ts-ignore
             const bVal: number = b.stats[key];
 
-            console.log(`aVal: ${aVal}, bVal: ${bVal}`);
-
             // @ts-ignore
             if (a.stats[key] < b.stats[key]) {
                 return direction === 'asc' ? -1 : 1;
@@ -41,7 +39,6 @@ const StatsListCard: React.FC<StatsListCardProps> = ({ reposStatsExtended }) => 
         setReposStats(sortedData);
         setSortConfig({ key, direction });
     };
-    console.log(`StatsListCard: `, StatsListCard);
 
     return (
         <Suspense fallback={<p>Loading data...</p>}>

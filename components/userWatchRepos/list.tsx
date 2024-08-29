@@ -13,8 +13,6 @@ type Props = {
 
 const WatchedReposListComponent = ({ repos, enableDelete, enableReportLink, enableCreate }: Props) => {
 
-    console.log("WatchedReposListComponent:", enableDelete);
-
     return (
         <>
             <Suspense fallback={<p>Loading data...</p>}>

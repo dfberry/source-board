@@ -47,11 +47,8 @@ curl -L \
       if (!accessToken) {
         return Promise.reject(new Error("No access token"));
       }
-      console.log(`GitHubRepoService.repoInfo: accessToken=${accessToken}`);
-      console.log(`GitHubRepoService.repoInfo: ownerRepo=${ownerRepo}`);
 
       const url = `https://api.github.com/repos/${ownerRepo}`;
-      console.log(`Querying GitHub Repo API: ${url}`);
 
       const data = await GitHubServiceBase.fetchFromGitHub(url, accessToken);
       return data;

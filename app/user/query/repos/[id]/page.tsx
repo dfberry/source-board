@@ -14,19 +14,15 @@ type QueryReposPageProps = {
 
 export default async function QueryReposPage({ params }: QueryReposPageProps) {
 
-	console.log("QueryPage: Start");
 
 	const { user, session, isAuthorized } = await useRequireAuth();
 	if (!session || !isAuthorized) {
-		console.log("ProfilePage: Not authorized");
 		return null;
 	} else {
-		console.log("ProfilePage: Authorized");
 	}
 	const accessToken = await getDbTokenByDbUserId(session?.userId);
 
 	if (!accessToken) {
-		console.log("QueryPage: No access token");
 		return null;
 	}
 
@@ -36,7 +32,6 @@ export default async function QueryReposPage({ params }: QueryReposPageProps) {
 		throw new Error("Repo not found");
 	}
 	const repo = repoFromDb[0].repoName;
-	console.log("QueryReposPage: repoFromDb", repoFromDb[0]);
 
 	const last30Days = getLastDaysRange();
 
@@ -58,9 +53,8 @@ export default async function QueryReposPage({ params }: QueryReposPageProps) {
 
 	const items = await GitHubRepoIssues.fetchIssues(fetchIssuesParams, accessToken);
 
-	//console.log("QueryPage: Items", items);
 	if (!items || (Array.isArray(items) && items.length === 0)) {
-		console.log("QueryPage: No items");
+
 		return (
 			<>
 				<h1 className="text-2xl font-bold mb-4">{fetchIssuesParams.repo}</h1>
