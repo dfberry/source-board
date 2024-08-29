@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
-import { GitHubRepoStats } from '@/lib/github/stats'; // Adjust the import path as necessary
+import { GitHubRepoStats, GitHubRepoCommunityMetrics } from '@/lib/github/stats'; // Adjust the import path as necessary
 
 interface StatsCardProps {
     stats: GitHubRepoStats;
+    metrics: GitHubRepoCommunityMetrics;
     ownerAndRepo: string; // repo name
 }
 
-const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats }) => {
+const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) => {
 
     console.log(`componentOwner: ${ownerAndRepo}`);
 
@@ -38,6 +39,12 @@ const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats }) => {
                     <div>
                         <p className="text-lg font-semibold">{stats.watchers}</p>
                         <p className="text-sm text-gray-500">Watchers</p>
+                    </div>
+                    <div className="flex justify-around text-center">
+                        <div>
+                            <p className="text-lg font-semibold">{metrics?.health_percentage}%</p>
+                            <p className="text-sm text-gray-500">Health</p>
+                        </div>
                     </div>
                 </section>
             </Suspense>

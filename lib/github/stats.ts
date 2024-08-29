@@ -1,5 +1,14 @@
 import GitHubServiceBase from "./base";
 
+export interface GitHubRepoCommunityMetrics {
+  health_percentage: number;
+  description?: string;
+  documentation?: string;
+  files?: string[];
+  updated_at?: string;
+  content_reports_enabled?: boolean;
+}
+
 export interface GitHubRepoStats {
   forks: number;
   open_issues: number;
@@ -7,10 +16,23 @@ export interface GitHubRepoStats {
   watchers: number;
 }
 
+export interface GitHubRepoStatsExtended {
+  forks: number;
+  open_issues: number;
+  stars: number;
+  watchers: number;
+  health_percentage: number;
+}
+
 export interface GitHubStatsResult {
   errors: string[];
   repo_name: string;
   stats: GitHubRepoStats;
+  metrics: GitHubRepoCommunityMetrics;
+}
+export interface GitHubStatsExtendedResult {
+  repo_name: string;
+  stats: GitHubRepoStatsExtended;
 }
 
 export default class GitHubStatusService extends GitHubServiceBase {
@@ -18,7 +40,7 @@ export default class GitHubStatusService extends GitHubServiceBase {
     accessToken: string,
     githubUserId: string,
     reposList: string[],
-  ): Promise<any> {
+  ): Promise<GitHubStatsResult[]> {
     if (!accessToken) {
       return Promise.reject(new Error("No access token"));
     }

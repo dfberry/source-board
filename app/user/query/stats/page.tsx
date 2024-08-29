@@ -30,11 +30,19 @@ export default async function QueryStatsPage() {
 	const reposStats = await GitHubStatusService.queryStatus(accessToken, login, repoNames);
 	console.log("QueryStatsPage: reposStats=", reposStats);
 
+	// add metrics.health_percentage to each repo stats and provide a new type for it
+	const reposStatsExtended = reposStats.map((repoStats) => {
+		return {
+			...repoStats,
+			stats: { ...repoStats.stats, health_percentage: repoStats.metrics.health_percentage },
+		}
+	});
+
 	return (
 		<>
 			<Suspense fallback={<p>Loading data...</p>}>
 				<h1 className="text-2xl font-bold mb-4">Stats</h1>
-				<StatsListCard statsList={reposStats} />
+				<StatsListCard reposStatsExtended={reposStatsExtended} />
 			</Suspense>
 		</>
 	);
