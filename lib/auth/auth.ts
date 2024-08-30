@@ -113,8 +113,13 @@ export async function githubAuthenticationCallback(
   console.log(`storedState: ${storedState}`);
 
   if (!code || !state || !storedState || state !== storedState) {
-    console.log(`returning 400`);
-    return new Response(null, { status: 400 });
+    console.log(
+      `returning 400 - code: ${code}, state: ${state}, storedState: ${storedState}`,
+    );
+    return new Response(
+      `returning 400 - code: ${code}, state: ${state}, storedState: ${storedState}`,
+      { status: 400 },
+    );
   }
 
   try {
@@ -161,17 +166,17 @@ export async function githubAuthenticationCallback(
         Location: "/user/settings",
       },
     });
-  } catch (e) {
+  } catch (e: unknown) {
     if (
       e instanceof OAuth2RequestError &&
       e.message === "bad_verification_code"
     ) {
       // invalid code
-      return new Response(null, {
+      return new Response(e?.message, {
         status: 400,
       });
     }
-    return new Response(null, {
+    return new Response(JSON.stringify(e), {
       status: 500,
     });
   }
@@ -180,13 +185,11 @@ export async function githubAuthenticationCallback(
 export const github = new GitHub(
   process.env.GITHUB_CLIENT_ID!,
   process.env.GITHUB_CLIENT_SECRET!,
-  // {
-  //   enterpriseDomain: process.env.GH_REDIRECT_URI!,
-  // },
+  {
+    redirectURI: process.env.GITHUB_REDIRECT_URI!,
+  },
 );
 
 console.log(
-  `auth.ts `,
-  process.env.GITHUB_CLIENT_ID,
-  process.env.GITHUB_CLIENT_SECRET,
+  `auth.ts CLIENTID=${process.env.GITHUB_CLIENT_ID} CLIENTSECRET=${process.env.GITHUB_CLIENT_SECRET} REDIRECTURI=${process.env.GITHUB_REDIRECT_URI}`,
 );
