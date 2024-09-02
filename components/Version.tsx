@@ -9,8 +9,6 @@ export default function VersionComponent() {
 
 
     return (
-        <div>
-            <p className="text-gray-500">{version}</p>
-        </div>
+        <div>Open Source board {version}</div>
     );
 }

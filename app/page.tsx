@@ -31,7 +31,7 @@ export default async function HomePage() {
 				</div>
 			</div> */}
 
-			<div className="flex justify-between mt-6">
+			<div className="flex items-center justify-center min-h-screen">
 				<a className="bg-blue-500 text-white py-2 px-4 rounded-lg" href="/login/github">Sign in with GitHub</a>
 			</div>
 		</div>

@@ -3,17 +3,15 @@ import "./globals.css"
 import VersionComponent from "@/components/Version";
 
 export const metadata: Metadata = {
-	title: "Source Board"
+	title: "Open Source Board"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<body>
+				<VersionComponent />
 				<div>{children}</div>
-				<footer>
-					<VersionComponent />
-				</footer>
 			</body>
 		</html>
 	);
