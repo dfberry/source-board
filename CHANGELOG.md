@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 0.5.9
+
+- touch
+
 ## 0.5.8
 
 - Footer
