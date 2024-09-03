@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 0.5.8
+
+- Footer
+
 ## 0.5.7
 
 - Open Source board name and ico
