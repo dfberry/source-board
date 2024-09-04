@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, Suspense } from 'react';
-import { TiArrowSortedDown, TiArrowSortedUp, FaSort, FaArrowUp, FaArrowDown, FaSortNumericUp, FaSortNumericDown, FaSortNumericDownAlt, FaSortNumericUpAlt } from 'react-icons/fa';
-import { GitHubStatsResult, GitHubRepoStats, GitHubRepoStatsExtended } from '@/lib/github/stats'; // Adjust the import path as necessary
+import { FaSort, FaArrowUp, FaArrowDown, FaSortNumericUp, FaSortNumericDown, FaSortNumericDownAlt, FaSortNumericUpAlt } from 'react-icons/fa';
+import { GitHubStatsResult } from '@/lib/github/stats'; // Adjust the import path as necessary
 import StatsCard from '@/components/github/Stats';
 
 interface StatsListCardProps {

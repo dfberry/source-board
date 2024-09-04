@@ -4,6 +4,7 @@
 
 - new: repo stats - last_commit date
 - new: column sorting with highlight
+- new: GH action to build Next.js
 - fix: repo watch insert
 
 ## 0.5.11
