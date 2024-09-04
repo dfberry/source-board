@@ -39,7 +39,12 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
     await UserWatchRepoService.create(session?.userId, orgAndRepo);
   } catch (e) {
     if(e instanceof Error) {
-      return { message: e.message };
+      if(e.message.includes("duplicate key value")) {
+        return { message: "Repo already added." };
+      } else {
+        return { message: e.message };
+      }
+      
     } else {
       console.log("Error adding repo", e);
       return { message: "Error adding repo" };
