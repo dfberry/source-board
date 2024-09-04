@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 0.5.11
+
+- Update version script
+
 ## 0.5.10 
 
 - devcontainer
