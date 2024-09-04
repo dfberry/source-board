@@ -60,32 +60,11 @@ const NewRepoToWatchForm = () => {
             return;
         }
 
-        try {
-            const results = await CreateNewRepoToWatch(repo);
-            console.log("create new repo results", results);
-            formRef?.current?.reset();
-        } catch (e) {
+        const { message } = await CreateNewRepoToWatch(repo);
+        console.log("create new repo results", message);
+        if (message && message.length > 0) setError(message);
+        formRef?.current?.reset();
 
-            console.log("action error", e);
-
-            if (e instanceof Error) {
-
-                if (e.message.includes("duplicate key")) {
-
-                    setError("The repository is already being watched.");
-                }
-                else if (e.message.includes("Repo not found")) {
-
-                    setError("The repository does not exist or is not accessible for this user.");
-                } else {
-
-                    setError(e.message);
-                }
-            } else {
-
-                setError("An error occurred while trying to watch the repository.");
-            }
-        }
     }
 
     return (
