@@ -6,6 +6,7 @@
 - new: column sorting with highlight
 - new: GH action to build Next.js
 - fix: repo watch insert
+- fix: Update action error to form error via message
 
 ## 0.5.11
 
