@@ -5,14 +5,12 @@ import { getDbTokenByDbUserId } from "@/lib/db/db";
 import { revalidatePath } from "next/cache";
 import useRequireAuth from "@/hooks/useRequireAuth";
 
-export type CreateNewRepoResponse = { 
-  message: string 
-};
+export type CreateNewRepoResponse = { message: string } | void;
 
 /**
  *
  * @param orgAndRepo: example is 'owner/repo'
- * @returns redirects to
+ * @returns success redirectss, error returns message
  */
 
 export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNewRepoResponse> => {
@@ -25,7 +23,7 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
   const service = new UserWatchRepoService();
 
   if (!orgAndRepo || orgAndRepo === "") {
-    return {message: "value is empty"};
+    return { message: "value is empty" };
   }
   const accessToken = await getDbTokenByDbUserId(session?.userId);
 
@@ -35,9 +33,19 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
     return { message: "Repo not found" };
   }
 
+
   // add repo to db
-  await UserWatchRepoService.create(session?.userId, orgAndRepo);
-  return { message: "Repo added" };
+  try {
+    await UserWatchRepoService.create(session?.userId, orgAndRepo);
+  } catch (e) {
+    if(e instanceof Error) {
+      return { message: e.message };
+    } else {
+      console.log("Error adding repo", e);
+      return { message: "Error adding repo" };
+    }
+  }
+
   revalidatePath("/user/repos");
 };
 export const DeleteRepoToWatch = async (id: string) => {

@@ -56,13 +56,13 @@ const NewRepoToWatchForm = () => {
 
         if (!success || !repo || repo === "") {
             console.log("action error validat", error);
-            setError("The repository URL must conform to the GitHub format.");
+            setError("The repository URL must conform to the GitHub format: org_or_user/repo_name.");
             return;
         }
 
-        const { message } = await CreateNewRepoToWatch(repo);
-        console.log("create new repo results", message);
-        if (message && message.length > 0) setError(message);
+        const result = await CreateNewRepoToWatch(repo);
+        console.log("create new repo results", result);
+        if (result?.message && result?.message.length > 0) setError(result?.message);
         formRef?.current?.reset();
 
     }
