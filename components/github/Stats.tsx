@@ -23,28 +23,24 @@ const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) =
                 </div>
             </header>
             <Suspense fallback={<p>Loading...</p>}>
-                <section className="flex justify-around text-center">
-                    <div>
+                <section className="grid grid-cols-6 gap-4 mb-4 bg-white p-2 rounded">
+                    <div className="flex justify-center items-center">
                         <p className="text-lg font-semibold">{stats.forks}</p>
-                        <p className="text-sm text-gray-500">Forks</p>
                     </div>
-                    <div>
+                    <div className="flex justify-center items-center">
                         <p className="text-lg font-semibold">{stats.open_issues}</p>
-                        <p className="text-sm text-gray-500">Open Issues</p>
                     </div>
-                    <div>
+                    <div className="flex justify-center items-center">
                         <p className="text-lg font-semibold">{stats.stars}</p>
-                        <p className="text-sm text-gray-500">Stars</p>
                     </div>
-                    <div>
+                    <div className="flex justify-center items-center">
                         <p className="text-lg font-semibold">{stats.watchers}</p>
-                        <p className="text-sm text-gray-500">Watchers</p>
                     </div>
-                    <div className="flex justify-around text-center">
-                        <div>
-                            <p className="text-lg font-semibold">{metrics?.health_percentage}%</p>
-                            <p className="text-sm text-gray-500">Health</p>
-                        </div>
+                    <div className="flex justify-center items-center">
+                        <p className="text-lg font-semibold">{metrics?.health_percentage}%</p>
+                    </div>
+                    <div className="flex justify-center items-center">
+                        <p className="text-lg font-semibold">{stats.last_commit}</p>
                     </div>
                 </section>
             </Suspense>

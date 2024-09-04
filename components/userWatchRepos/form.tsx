@@ -4,20 +4,21 @@ import { CreateNewRepoToWatch } from "@/actions/userWatchRepo";
 import { useState, useRef, Suspense } from "react";
 import { z } from "zod";
 
-const regexOrgRepo = /^[^\/]+\/[^\/]+$/;
 
-const orgRepoSchema = z.string().regex(regexOrgRepo, "Invalid org/repo format");
+function validateRepoUrl(orgRepo: string): { success: boolean, repo?: string, error?: any } {
 
-function validateRepoUrl(orgRepo: string) {
     console.log(`validateRepoUrl start: ${orgRepo}`);
+    const cleanedOrgRepo = orgRepo.replace(/^https:\/\/github\.com\//, '');
+    const regexOrgRepo = /^[^\/]+\/[^\/]+$/;
+    const orgRepoSchema = z.string().regex(regexOrgRepo, "Invalid org/repo format");
 
     try {
 
-        orgRepoSchema.parse(orgRepo);
-        console.log(`validateRepoUrl: ${orgRepo}`);
+        const result = orgRepoSchema.parse(cleanedOrgRepo);
+        console.log(`validateRepoUrl: ${result}`);
 
         // Extract the org/repo part
-        return { success: true, repo: orgRepo };
+        return { success: true, repo: cleanedOrgRepo };
     } catch (e) {
         console.log(`validateRepoUrl error: ${e}`);
         if (e instanceof z.ZodError) {
@@ -53,18 +54,37 @@ const NewRepoToWatchForm = () => {
         console.log("action url", url);
         const { success, error, repo } = validateRepoUrl(orgRepo)
 
-        if (!success) {
+        if (!success || !repo || repo === "") {
             console.log("action error validat", error);
             setError("The repository URL must conform to the GitHub format.");
             return;
         }
 
         try {
-            await CreateNewRepoToWatch(orgRepo);
+            const results = await CreateNewRepoToWatch(repo);
+            console.log("create new repo results", results);
             formRef?.current?.reset();
         } catch (e) {
+
             console.log("action error", e);
-            setError("The repository does not exist or is not accessible for this user.");
+
+            if (e instanceof Error) {
+
+                if (e.message.includes("duplicate key")) {
+
+                    setError("The repository is already being watched.");
+                }
+                else if (e.message.includes("Repo not found")) {
+
+                    setError("The repository does not exist or is not accessible for this user.");
+                } else {
+
+                    setError(e.message);
+                }
+            } else {
+
+                setError("An error occurred while trying to watch the repository.");
+            }
         }
     }
 
@@ -87,5 +107,6 @@ const NewRepoToWatchForm = () => {
         </Suspense>
     );
 };
+
 
 export default NewRepoToWatchForm;

@@ -5,14 +5,19 @@ export default class GitHubServiceBase {
     method: string = "GET",
     body: Object = {},
   ): Promise<any> {
-    const response = await fetch(url, {
+    const options: RequestInit = {
       headers: {
         Authorization: `token ${accessToken}`,
         "Content-Type": "application/json",
       },
       method,
-      body: JSON.stringify(body),
-    });
+    };
+
+    if (body && Object.keys(body).length > 0) {
+      options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, options);
 
     if (!response.ok) {
       console.error(`GitHub API request failed: ${response.statusText}`);

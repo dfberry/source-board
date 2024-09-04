@@ -14,6 +14,7 @@ export interface GitHubRepoStats {
   open_issues: number;
   stars: number;
   watchers: number;
+  last_commit: string;
 }
 
 export interface GitHubRepoStatsExtended {

@@ -50,6 +50,7 @@ curl -L \
       console.log(`GitHubRepoService.repoInfo: accessToken=${accessToken}`);
       console.log(`GitHubRepoService.repoInfo: ownerRepo=${ownerRepo}`);
 
+      // Should be in the format "owner/repo"
       const url = `https://api.github.com/repos/${ownerRepo}`;
       console.log(`Querying GitHub Repo API: ${url}`);
 

@@ -5,37 +5,39 @@ import { getDbTokenByDbUserId } from "@/lib/db/db";
 import { revalidatePath } from "next/cache";
 import useRequireAuth from "@/hooks/useRequireAuth";
 
-export const CreateNewRepoToWatch = async (newRepo: string) => {
+/**
+ *
+ * @param orgAndRepo: example is 'owner/repo'
+ * @returns redirects to
+ */
+
+export const CreateNewRepoToWatch = async (orgAndRepo: string) => {
   const { user, session, isAuthorized } = await useRequireAuth();
 
   if (!isAuthorized || !session) {
     console.log("createNewRepoToWatch: Not authorized");
     return null;
-  } else {
-    console.log("createNewRepoToWatch: Authorized");
   }
   const service = new UserWatchRepoService();
 
-  if (!newRepo || newRepo === "") {
-    console.log("createNewRepoToWatch: newRepo is empty");
+  if (!orgAndRepo || orgAndRepo === "") {
+    console.log("createNewRepoToWatch: orgAndRepo is empty");
     return null;
-  } else {
-    //console.log("newRepoToWatch: ", newRepo);
   }
   const accessToken = await getDbTokenByDbUserId(session?.userId);
 
-  // verify db exists
-  const repo = await GitHubRepoService.repoInfo(accessToken!, newRepo);
-  if (!repo) {
+  // verify repo exists
+  const repo = await GitHubRepoService.repoInfo(accessToken!, orgAndRepo);
+  if (!repo || repo.length === 0) {
     console.log("createNewRepoToWatch: Repo not found");
     throw new Error("Repo not found");
   }
 
   // add repo to db
-  await UserWatchRepoService.create(session?.userId, newRepo);
-  revalidatePath("/todos");
+  await UserWatchRepoService.create(session?.userId, orgAndRepo);
+  revalidatePath("/user/repos");
 };
 export const DeleteRepoToWatch = async (id: string) => {
   await UserWatchRepoService.delete(id);
-  revalidatePath("/todos");
+  revalidatePath("/user/repos");
 };

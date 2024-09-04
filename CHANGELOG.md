@@ -1,10 +1,16 @@
 # CHANGE LOG
 
+## 0.5.12
+
+- new: repo stats - last_commit date
+- new: column sorting with highlight
+- fix: repo watch insert
+
 ## 0.5.11
 
 - Update version script
 
-## 0.5.10 
+## 0.5.10
 
 - devcontainer
 

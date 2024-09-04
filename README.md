@@ -18,6 +18,15 @@ Create a GitHub OAuth app with the callback set to `http://localhost:3000/login/
 ```bash
 GITHUB_CLIENT_ID=""
 GITHUB_CLIENT_SECRET=""
+ENC_KEY=""
+ENC_IV=""
+DB_URL="postgresql://"
+PORT=3000
+GH_OAUTH_STATE=123
+GH_REDIRECT_URI=http://localhost:3000
+GH_FULL_REDIRECT_URI=http://localhost:3000/login/github/callback
+GITHUB_REDIRECT_URI=http://localhost:3000/login/github/callback
+BACKEND_URL="https://"
 ```
 
 ## Polyfill
@@ -84,3 +93,33 @@ The error TargetPort does not match the listening port indicates that the contai
 
 TargetPort is the port your Azure Container App expects to receive traffic on.
 ListeningPort is the port your application inside the container is actually using.
+
+## New change
+
+1. Checkout from main to new branch: `git checkout -b dfberry/0903-featues`
+2. Finish task
+3. Checkout stage and merge branch:
+
+```
+git checkout stage
+git merge dfberry/0903-features
+```
+
+4. Push to origin to deploy to vercel
+
+```
+git push origin stage
+```
+
+5. Checkout main and merge stage:
+
+```
+  git checkout main
+  git merge stage
+```
+
+## Update version
+
+```
+bash scripts/update-version.sh <new-version-number>
+```
