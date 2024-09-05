@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import AuthButton from './auth';
 
 const Header = () => {
 
@@ -14,6 +13,7 @@ const Header = () => {
                         </Link>
                     </div>
                     <nav className="space-x-4 ml-8">
+                        <Link href="/about">About</Link>
                     </nav>
                 </div>
 

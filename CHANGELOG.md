@@ -1,4 +1,12 @@
+
 # CHANGE LOG
+
+## 0.5.14
+
+- New: About Page
+- New: Playwright test for about page
+- New: GitHub Action for Playwright test
+
 
 ## 0.5.13
 
