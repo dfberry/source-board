@@ -1,5 +1,5 @@
 // hooks/useRequireAuth.tsx
-import { validateRequest } from '@/lib/auth/auth'; 
+import { validateRequest } from '@/lib/auth/auth';
 
 const useRequireAuth = async () => {
   const { user, session } = await validateRequest();
