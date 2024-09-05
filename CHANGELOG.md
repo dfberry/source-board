@@ -1,3 +1,7 @@
+## 0.5.15
+
+- Fix: Drizzle location in new ./src
+
 
 # CHANGE LOG
 
