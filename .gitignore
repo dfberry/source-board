@@ -49,3 +49,7 @@ node_modules
 **/*.PublishSettings
 **/*.publishProfile.xml
 **/service.principal.json
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
