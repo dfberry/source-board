@@ -51,7 +51,7 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 					</div>
 					<div className="flex justify-between items-center mt-4">
 						<p className="text-gray-800">{githubProfile.bio}</p>
-						<Link prefetch={false} href={`/user/settings/repo`} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Configure</Link>
+						<Link prefetch={false} href={`/user/settings/repo`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center">Watch repos</Link>
 					</div>
 					<div id="repos" className="mt-6 bg-blue-500 p-4 rounded-lg flex items-center space-x-4">
 						<div className="text-left" title="Number of public repositories">
@@ -66,21 +66,6 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 							<h2 className="text-xl font-semibold text-white">{githubProfile.following}</h2>
 							<SlUserFollowing className="h-6 w-6 mx-auto text-white" />
 						</div>
-					</div>
-					<div id="feature-nav" className="flex justify-between items-center mt-4">
-						<Link prefetch={false} href={`/user/query/issues`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>Issues</span>
-
-						</Link>
-						<Link prefetch={false} href={`/user/query/pr`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>PRs</span>
-						</Link>
-						<Link prefetch={false} href={`/user/query/repos`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>Repos</span>
-						</Link>
-						<Link prefetch={false} href={`/user/query/stats`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-							<span>Stats</span>
-						</Link>
 					</div>
 					<div id="bottom-nav" className="flex justify-between items-center mt-4">
 						<Link prefetch={false} href={`https://github.com/${githubProfile.login}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center">

@@ -15,7 +15,14 @@
 	"forwardPorts": [3000],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npx --yes playwright install --with-deps"
+	"postCreateCommand": "npx --yes playwright install --with-deps",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-playwright.playwright"
+			]
+		}
+	}
 
 	// Configure tool-specific properties.
 	// "customizations": {},

@@ -3,9 +3,11 @@
   "version": "0.5.15",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_ENV=development next dev",
+    "dev:test": "NODE_ENV=test BYPASS_AUTH=true next dev",
     "build": "next build",
-    "start": "NODE_ENV=development next start",
+    "build:test": "NODE_ENV=test BYPASS_AUTH=true next build",
+    "start": "NODE_ENV=production next start",
     "lint": "next lint --fix",
     "test": "jest",
     "db:generate": "drizzle-kit generate",
