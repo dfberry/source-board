@@ -38,10 +38,20 @@ export default async function QueryStatsPage() {
 		}
 	});
 
+	if (!reposStatsExtended || (Array.isArray(reposStatsExtended) && reposStatsExtended.length === 0)) {
+		console.log("Watch repo stats: No items");
+		return (
+			<>
+				<h1 className="container watched-repo-stats no-watched-repo-stats text-2xl font-bold mb-4">Watched repo stats: 0</h1>
+
+			</>
+		);
+	}
+
 	return (
 		<>
+			<h1 className="container watched-repo-stats count-watched-repo-stats text-2xl font-bold mb-4">Watched repo stats: {reposStatsExtended.length}</h1>
 			<Suspense fallback={<p>Loading data...</p>}>
-				<h1 className="text-2xl font-bold mb-4">Stats</h1>
 				<StatsListCard reposStatsExtended={reposStatsExtended} />
 			</Suspense>
 		</>

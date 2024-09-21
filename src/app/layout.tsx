@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css"
 import Footer from "@/components/nav/footer";
 import PublicHeader from "@/components/nav/header-public";
+import SecureHeader from "@/components/nav/header-secure";
 import useRequireAuth from "@/hooks/useRequireAuth";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en">
 			<body className="min-h-screen flex flex-col">
-				<PublicHeader />
+				{isAuthorized ? <SecureHeader /> : <PublicHeader />}
 				<div className="flex-grow">{children}</div>
 				<Footer />
 			</body>
