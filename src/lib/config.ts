@@ -11,8 +11,8 @@ export const CONFIG = {
   MY_ENV: process.env.MY_ENV!,
 };
 
-const userEnv = process.env['GITHUB_TEST_USER'];
-const sessionEnv = process.env['GITHUB_TEST_SESSION'];
+const userEnv = process.env['GH_TEST_USER'];
+const sessionEnv = process.env['GH_TEST_SESSION'];
 
 const parseJSON = <T>(jsonString: string | undefined): T | null => {
   try {

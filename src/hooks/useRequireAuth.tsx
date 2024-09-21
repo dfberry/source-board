@@ -10,16 +10,6 @@ let savedAuthToEnv = false;
 const envFilePath = path.resolve(__dirname, '@/.env');
 console.log('envFilePath', envFilePath);
 
-const forPlaywrightTestingOnly_UpdateEnvVariable = async (session: any, user: any): Promise<void> => {
-
-  console.log('GITHUB_TEST_USER=', JSON.stringify(user));
-  console.log('GITHUB_TEST_SESSION=', JSON.stringify(session));
-
-
-  //await updateEnvVariableForTesting(envFilePath, 'GITHUB_TEST_USER', JSON.stringify(user));
-  //await updateEnvVariableForTesting(envFilePath, 'GITHUB_TEST_SESSION', JSON.stringify(session));
-}
-
 const useRequireAuth = async (): Promise<AppSessionResult> => {
 
   if ((process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development") && process.env.BYPASS_AUTH) {
@@ -35,7 +25,6 @@ const useRequireAuth = async (): Promise<AppSessionResult> => {
     if (!savedAuthToEnv) {
 
       savedAuthToEnv = true;
-      await forPlaywrightTestingOnly_UpdateEnvVariable(session, user);
 
     }
 
