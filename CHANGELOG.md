@@ -1,9 +1,12 @@
+# CHANGE LOG
+
+## 0.5.16
+
+- Smoke tests
+
 ## 0.5.15
 
 - Fix: Drizzle location in new ./src
-
-
-# CHANGE LOG
 
 ## 0.5.14
 

@@ -7,8 +7,7 @@ const githubUser = process.env.GITHUB_TEST_USER
 const githubPassword = process.env.GITHUB_TEST_PASSWORD
 const redirectUrl = process.env.GITHUB_TEST_REDIRECT_URL
 
-setup('authenticate', async ({ page }) => {
-  // Perform authentication steps. Replace these actions with your own.
+export async function authSetup(page: any):Promise<void>{
   await page.goto('https://github.com/login');
   await page.getByLabel('Username or email address').fill(githubUser!);
   await page.getByLabel('Password').click();
@@ -21,7 +20,11 @@ setup('authenticate', async ({ page }) => {
   await page.waitForURL('https://github.com/');
   // Alternatively, you can wait until the page reaches a state where all cookies are set.
   await expect(page.getByRole('link', { name: 'Create repository' })).toBeVisible();
+}
 
+setup('authenticate', async ({ page }) => {
+  // Perform authentication steps. Replace these actions with your own.
+  await authSetup(page)
   // End of authentication steps.
 
   await page.context().storageState({ path: authFile });

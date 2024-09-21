@@ -43,10 +43,14 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 						/>
 
 						<div>
-							<h1 className="text-2xl font-bold">{githubProfile
-								.name}</h1>
-							<p className="text-gray-600">@{githubProfile
-								.login}</p>
+							<h1
+								data-testid="github-profile-name"
+								className="text-2xl font-bold">{githubProfile
+									.name}</h1>
+							<p
+								className="text-gray-600"
+								data-testid="github-profile-login">@{githubProfile
+									.login}</p>
 						</div>
 					</div>
 					<div className="flex justify-between items-center mt-4">
