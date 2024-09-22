@@ -139,11 +139,3 @@ bash scripts/update-version.sh <new-version-number>
   ```shell
   npx playwright codegen http://localhost:3000
   ```
-
-## Deploy to Vercel stage
-
-* Push to stage
-
-## Deploy to Vercel live
-
-* Push to main
