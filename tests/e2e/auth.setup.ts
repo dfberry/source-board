@@ -3,9 +3,9 @@ import path from 'path';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
-const githubUser = process.env.GH_TEST_USER
-const githubPassword = process.env.GH_TEST_PASSWORD
-const redirectUrl = process.env.GH_TEST_REDIRECT_URL
+const githubUser = process.env.GITHUB_TEST_USER
+const githubPassword = process.env.GITHUB_TEST_PASSWORD
+const redirectUrl = process.env.GITHUB_TEST_REDIRECT_URL
 
 export async function authSetup(page: any):Promise<void>{
   await page.goto('https://github.com/login');
