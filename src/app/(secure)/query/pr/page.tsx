@@ -36,16 +36,16 @@ export default async function QueryPrPage() {
 		console.log("QueryPrPage: No items");
 		return (
 			<>
-				<h1 className="text-2xl font-bold mb-4">Issues</h1>
-				<p className="container mx-auto p-4 bg-white shadow-md rounded-lg">No issues</p>
+				<h1 className="container prs no-prs text-2xl font-bold mb-4">{searchParams.repo} PRs: 0</h1>
+
 			</>
 		);
 	}
 
 	return (
 		<>
+			<h1 className="container prs count-prs text-2xl font-bold mb-4">{searchParams.repo} Prs: {items.length}</h1>
 			<Suspense fallback={<p>Loading data...</p>}>
-				<h1 className="text-2xl font-bold mb-4">PRs: {searchParams.repo}</h1>
 				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
 					{items.map((pr: GitHubPullRequest) => (
 						<PrCard key={pr.id} pr={pr} componentOwner={searchParams.repo} />

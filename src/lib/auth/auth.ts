@@ -6,15 +6,13 @@ import { cache } from "react";
 import { getDbUserByGithubId, insertDbToken, insertDbUser } from "@/lib/db/db";
 import { generateId } from "lucia";
 import { OAuth2RequestError } from "arctic";
-import type { Session, User } from "lucia";
+import { SessionResult } from "./types";
+import { luciaValidateSession } from "../../hooks/useRequireAuth";
 import type { DatabaseUser } from "../db/db";
 
 export { db, userTable };
 
-export interface SessionResult {
-  user: User | null;
-  session: Session | null;
-}
+
 
 export const lucia = new Lucia(adapter, {
   sessionExpiresIn: new TimeSpan(1, "w"), // 1 week
@@ -39,6 +37,7 @@ declare module "lucia" {
   }
 }
 export class SessionService {
+
   static async validateRequest(): Promise<SessionResult> {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
@@ -48,7 +47,8 @@ export class SessionService {
       };
     }
 
-    const result = await lucia.validateSession(sessionId);
+    //const result = await lucia.validateSession(sessionId);
+    const result = await luciaValidateSession(lucia, sessionId);
     console.log("Auth result", result);
 
     // next.js throws when you attempt to set cookie when rendering page

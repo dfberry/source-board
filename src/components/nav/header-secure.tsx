@@ -14,14 +14,17 @@ const Header = () => {
                         </Link>
                     </div>
                     <nav className="space-x-4 ml-8">
-                        <Link href="/user/query/issues">
+                        <Link href="/query/issues">
                             Issues
                         </Link>
-                        <Link href="/user/query/pr">
+                        <Link href="/query/pr">
                             PRs
                         </Link>
-                        <Link href="/user/query/stats">
+                        <Link href="/query/repos">
                             Repos
+                        </Link>
+                        <Link href="/query/stats">
+                            Stats
                         </Link>
                     </nav>
                 </div>

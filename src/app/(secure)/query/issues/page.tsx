@@ -7,6 +7,7 @@ import IssueCard from "@/components/github/Issue";
 import GitHubUserService from '@/lib/github/user';
 import { getLastDaysRange } from '@/lib/datetime';
 import { LastDaysReturn } from '@/lib/datetime';
+import { VscIssues } from 'react-icons/vsc';
 
 export default async function QueryIssuesPage() {
 
@@ -26,12 +27,18 @@ export default async function QueryIssuesPage() {
 		return null;
 	}
 	const { login } = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
+	if (!login) {
+		console.log("QueryIssuesPage: No login");
+		return null;
+	}
+
 	const last30Days: LastDaysReturn = getLastDaysRange();
 
 	const searchParams = {
 		[GitHubSearchDefaultQuery.AUTHOR]: login,
 		[GitHubSearchDefaultQuery.CREATED]: `${last30Days.startDate}...${last30Days.endDate}`,
 	};
+	console.log(`QueryIssuesPage: searchParams`, searchParams);
 
 
 	const { items } = await GitHubIssuesService.queryIssues(accessToken, searchParams, login);
@@ -41,15 +48,14 @@ export default async function QueryIssuesPage() {
 		console.log("QueryIssuesPage: No items");
 		return (
 			<>
-				<h1 className="text-2xl font-bold mb-4">Issues</h1>
-				<p className="container mx-auto p-4 bg-white shadow-md rounded-lg">No issues</p>
+				<h1 className="container issues no-issues text-2xl font-bold mb-4">Issues: 0</h1>
 			</>
 		);
 	}
 
 	return (
 		<>
-			<h1 className="text-2xl font-bold mb-4">Issues</h1>
+			<h1 className="container issues count-issues text-2xl font-bold mb-4">Issues: {items.length}</h1>
 			<Suspense fallback={<p className="text-gray-500">Loading data...</p>}>
 				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
 					{items.map((issue: GitHubIssue) => (

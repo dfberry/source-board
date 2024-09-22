@@ -123,3 +123,27 @@ git push origin stage
 ```
 bash scripts/update-version.sh <new-version-number>
 ```
+
+## Playwright codegen
+
+1. In dev container:
+
+  ```shell
+  npm run dev:test
+  ```
+
+  This uses the auth found in the .env file. Check the port to make sure the app is running on 3000 and not 3001.
+
+1. In the host computer:
+
+  ```shell
+  npx playwright codegen http://localhost:3000
+  ```
+
+## Deploy to Vercel stage
+
+* Push to stage
+
+## Deploy to Vercel live
+
+* Push to main
