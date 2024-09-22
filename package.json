@@ -1,13 +1,11 @@
 {
   "name": "open-source-board",
-  "version": "0.5.16",
+  "version": "0.5.15",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development next dev",
-    "dev:test": "NODE_ENV=test BYPASS_AUTH=true next dev",
+    "dev": "next dev",
     "build": "next build",
-    "build:test": "NODE_ENV=test BYPASS_AUTH=true next build",
-    "start": "NODE_ENV=production next start",
+    "start": "NODE_ENV=development next start",
     "lint": "next lint --fix",
     "test": "jest",
     "db:generate": "drizzle-kit generate",
@@ -17,9 +15,7 @@
     "gha:eslint": "npx eslint . --config .eslintrc.json --ext .js,.jsx,.ts,.tsx --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif",
     "env:init": "pwsh ./.azd/scripts/create-env-local.ps1",
     "env:dv": "pwsh ./.azd/scripts/read-domain-verification-vars.ps1",
-    "test:e2e": "playwright test",
-    "test:e2e:test": "NODE_ENV=test playwright test",
-    "test:e2e:dev": "NODE_ENV=development playwright test"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.7",

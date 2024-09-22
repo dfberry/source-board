@@ -13,8 +13,6 @@ export default class GitHubServiceBase {
       method,
     };
 
-    console.log(`GitHubServiceBase.fetchFromGitHub: url=${url}, accessToken=${accessToken}, method=${method}, body=`, body);
-
     if (body && Object.keys(body).length > 0) {
       options.body = JSON.stringify(body);
     }

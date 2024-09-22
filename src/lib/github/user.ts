@@ -1,4 +1,4 @@
-import { SessionResult, AppSessionResult } from "../auth/types";
+import { SessionResult } from "../auth/auth";
 import { getDbTokenByDbUserId } from "@/lib/db/db";
 export interface GitHubUser {
   id: string;
@@ -80,7 +80,7 @@ export default class GitHubUserService {
     });
     const githubUser = await githubUserResponse.json();
 
-    console.log(`getGithHubUserBySessionResult: ${JSON.stringify(githubUser)}`);
+    //console.log(`getGithHubUserBySessionResult: ${JSON.stringify(githubUser)}`);
 
     return githubUser;
   }
