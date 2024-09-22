@@ -35,27 +35,19 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // Setup project
-    { name: 'setup', testMatch: /tests\/e2e\/.*\.setup\.ts/ },
     {
       name: 'chromium',
-      testMatch: 'tests/e2e/*.spec.ts',
-      use: { ...devices['Desktop Chrome'],storageState: 'playwright/.auth/user.json' },
-      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
-      testMatch: 'tests/e2e/*.spec.ts',
-      use: { ...devices['Desktop Firefox'],storageState: 'playwright/.auth/user.json' },
-      dependencies: ['setup'],
+      use: { ...devices['Desktop Firefox'] },
     },
 
     {
       name: 'webkit',
-      testMatch: 'tests/e2e/*.spec.ts',
-      use: { ...devices['Desktop Safari'],storageState: 'playwright/.auth/user.json' },
-      dependencies: ['setup'],
+      use: { ...devices['Desktop Safari'] },
     },
 
     /* Test against mobile viewports. */

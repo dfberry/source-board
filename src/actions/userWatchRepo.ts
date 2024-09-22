@@ -16,7 +16,7 @@ export type CreateNewRepoResponse = { message: string } | void;
 export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNewRepoResponse> => {
   const { user, session, isAuthorized } = await useRequireAuth();
 
-  if (!isAuthorized || session == null || !(session as any)?.userId) {
+  if (!isAuthorized || !session) {
     console.log("createNewRepoToWatch: Not authorized");
     return { message: "Not authorized" };
   }

@@ -7,36 +7,21 @@
     {
       "name": "GitHub Samples",
       "request": "launch",
-      "runtimeArgs": [
-        "--prefix",
-        "automation/sdk-sample",
-        "run",
-        "dev"
-      ],
+      "runtimeArgs": ["--prefix", "automation/sdk-sample", "run", "dev"],
       "runtimeExecutable": "npm",
       "type": "node"
     },
     {
       "name": "Issues",
       "request": "launch",
-      "runtimeArgs": [
-        "--prefix",
-        "automation/issues",
-        "run",
-        "dev"
-      ],
+      "runtimeArgs": ["--prefix", "automation/issues", "run", "dev"],
       "runtimeExecutable": "npm",
       "type": "node"
     },
     {
       "name": "process",
       "request": "launch",
-      "runtimeArgs": [
-        "--prefix",
-        "scripts/storage",
-        "run",
-        "process"
-      ],
+      "runtimeArgs": ["--prefix", "scripts/storage", "run", "process"],
       "runtimeExecutable": "npm",
       "type": "node"
     },
@@ -60,51 +45,18 @@
       "url": "http://localhost:3000"
     },
     {
-      "name": "Next full stack dev",
+      "name": "Next.js: debug full stack",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/next",
-      "runtimeArgs": [
-        "--inspect"
-      ],
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "runtimeArgs": ["--inspect"],
+      "skipFiles": ["<node_internals>/**"],
       "serverReadyAction": {
         "action": "debugWithEdge",
         "killOnServerStop": true,
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
         "webRoot": "${workspaceFolder}"
-      },
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "true",
-        // Add other environment variables as needed
-      }
-    },
-    {
-      "name": "Next full stack prod",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/next",
-      "runtimeArgs": [
-        "--inspect"
-      ],
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "serverReadyAction": {
-        "action": "debugWithEdge",
-        "killOnServerStop": true,
-        "pattern": "- Local:.+(https?://.+)",
-        "uriFormat": "%s",
-        "webRoot": "${workspaceFolder}"
-      },
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "false",
-        // Add other environment variables as needed
       }
     }
   ]
