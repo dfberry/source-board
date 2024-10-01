@@ -55,7 +55,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          file: next-dockerfile
+          file: ./next-dockerfile
           context: .
 
   deploy:
