@@ -12,7 +12,12 @@ on:
   #    [ main ]
 
   # Allow mannually trigger 
-  workflow_dispatch:      
+  workflow_dispatch:    
+      inputs:
+      branch:
+        description: 'Branch to run the workflow on'
+        required: true
+        default: 'dfberry/1002-fix-docker'  
 
 permissions:
   id-token: write
