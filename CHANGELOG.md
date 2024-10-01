@@ -1,9 +1,15 @@
+
+# CHANGE LOG
+
+## 0.5.16
+
+- Add: Docker from Vercel from [blog post](https://dev.to/francescoxx/build-a-full-stack-app-with-rust-nextjs-and-docker-436h)
+- Fix: GitHub action to deploy to Azure Container Apps with new next-dockerfile
+
 ## 0.5.15
 
 - Fix: Drizzle location in new ./src
 
-
-# CHANGE LOG
 
 ## 0.5.14
 
