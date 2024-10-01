@@ -1,6 +1,10 @@
 
 # CHANGE LOG
 
+## 0.5.17
+
+- Fix: GitHub Action can't find next-dockerfile
+
 ## 0.5.16
 
 - Add: Docker from Vercel from [blog post](https://dev.to/francescoxx/build-a-full-stack-app-with-rust-nextjs-and-docker-436h)
