@@ -49,6 +49,9 @@ jobs:
       - name: Lowercase the repo name and username
         run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
+      - name: Rename next-dockerfile to Dockerfile
+        run: mv next-dockerfile Dockerfile
+
       - name: Build and push container image to Azure Container Registry
         uses: docker/build-push-action@v6
         with:
