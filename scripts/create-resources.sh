@@ -4,86 +4,33 @@
 ## az login --use-device-code
 ##
 
-# Ensure the containerapp extension is installed
-az extension add --name containerapp
+# Set variables - only use alphanumeric characters (no dashes or underscores)
+AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
+AZURE_RESOURCE_GROUP="rust-axum-server"
+AZURE_LOCATION="eastus2"
 
-# Enable the preview features for containerapp
-az config set extension.use_dynamic_install=yes_without_prompt
-
-DOTENV_PATH="../.env.local"
-
-# Load environment variables from .env file into the script's environment
-if [ -f $DOTENV_PATH ]; then
-  set -a
-  source $DOTENV_PATH
-  set +a
-else
-  echo "Error: .env file not found at $DOTENV_PATH"
-  exit 1
-fi
-
-# Debug: Display all environment variables loaded from .env
-echo "Loaded environment variables from $DOTENV_PATH:"
-while IFS='=' read -r key value; do
-  echo "$key=$value"
-done < $DOTENV_PATH
+AZURE_CONTAINER_REGISTRY_NAME="dfberryregistry"
+AZURE_CONTAINER_APP_ENV_NAME="managedEnvironment-rustaxumserver-a56d"
+AZURE_CONTAINER_APP_NAME="dfberrycontainerapp-client"
+TARGET_PORT=3000
 
 # Create Azure resource group
-az group create \
---subscription $AZ_SUB_ID \
---name $AZ_RG 
---location $AZ_LOCATION
+#az group create --subscription $AZURE_SUBSCRIPTION_ID --name $AZURE_RESOURCE_GROUP --location $AZURE_LOCATION
 
 # Create Azure container registry
-az acr create \
---subscription $AZ_SUB_ID \
---resource-group $AZ_RG \
---name $AZ_REG_NAME \
---sku Basic
+#az acr create --subscription $AZURE_SUBSCRIPTION_ID --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CONTAINER_REGISTRY_NAME --sku Basic
 
 # Create Azure Container App environment
-az containerapp env create --subscription $AZ_SUB_ID \
---resource-group $AZ_RG \
---name $AZ_APP_ENV_NAME \
---location $AZ_LOCATION
+#az containerapp env create --subscription $AZURE_SUBSCRIPTION_ID --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CONTAINER_APP_ENV_NAME --location $AZURE_LOCATION
 
 # Create Azure container app
-az containerapp create \
---subscription $AZ_SUB_ID \
---resource-group $AZ_RG \
---name $AZ_APP_NAME \
---environment ${AZ_APP_ENV_NAME}
+az containerapp create --subscription $AZURE_SUBSCRIPTION_ID --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CONTAINER_APP_NAME --environment ${AZURE_CONTAINER_APP_ENV_NAME}
 
 # Enable ingress for Azure Container App
 az containerapp ingress enable \
---subscription $AZ_SUB_ID \
---name $AZ_APP_NAME \
---resource-group $AZ_RG \
---target-port $PORT \
---transport auto \
+--subscription $AZURE_SUBSCRIPTION_ID \
+--name $AZURE_CONTAINER_APP_NAME \
+--resource-group $AZURE_RESOURCE_GROUP \
+--target-port $TARGET_PORT \
+--transport http \
 --type external 
-
-# Set replica count for Azure Container App
-az containerapp update \
-  --subscription $AZ_SUB_ID \
-  --resource-group $AZ_RG \
-  --name $AZ_APP_NAME \
-  --min-replicas 1 \
-  --max-replicas 2
-
-# Update CORS settings for Azure Container App to allow anything from github.com
-az containerapp update \
-  --subscription $AZ_SUB_ID \
-  --resource-group $AZ_RG \
-  --name $AZ_APP_NAME \
-  --cors-allowed-origins "https://github.com" \
-  --cors-allowed-methods "GET,POST,OPTIONS" \
-  --cors-allowed-headers "*"
-
-# Set environment variables for Azure Container App
-az containerapp update \
-  --subscription $AZ_SUB_ID \
-  --resource-group $AZ_RG \
-  --name $AZ_APP_NAME \
-  --build-env-vars "PORT=$PORT" \
-  --set-env-vars "PORT=$PORT"
