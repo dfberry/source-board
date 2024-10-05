@@ -4,30 +4,11 @@
 ## az login --use-device-code
 ##
 
-DOTENV_PATH="../.env.local"
-OUTPUT_PATH="../.env.azure.auth"
+# Set variables - only use alphanumeric characters (no dashes or underscores)
+AZURE_SUBSCRIPTION_ID="19016922-4bf5-4c41-9553-8eff5da1500e"
 
-# Load environment variables from .env file into the script's environment
-if [ -f $DOTENV_PATH ]; then
-  set -a
-  source $DOTENV_PATH
-  set +a
-else
-  echo "Error: .env file not found at $DOTENV_PATH"
-  exit 1
-fi
-
-# Debug: Display all environment variables loaded from .env
-echo "Loaded environment variables from $DOTENV_PATH:"
-while IFS='=' read -r key value; do
-  echo "$key=$value"
-done < $DOTENV_PATH
-
-# Create the service principal and save the JSON output to a file
 az ad sp create-for-rbac \
-  --name "CICD-source-board" \
-  --role contributor \
-  --scopes /subscriptions/$AZ_SUB_ID \
-  --sdk-auth > $OUTPUT_PATH
-
-echo "Service principal credentials saved to $OUTPUT_PATH"
+--name "CICD-source-board-client-nextjs" \
+--role contributor \
+--scopes /subscriptions/$AZURE_SUBSCRIPTION_ID \
+--sdk-auth

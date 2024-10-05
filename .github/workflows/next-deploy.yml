@@ -1,10 +1,10 @@
-name: Deploy to Azure Container App
+name: Deploy Nextjs to ACA
 
 env:
-  AZ_APP_NAME: dfberrynextapp
-  AZURE_GROUP_NAME: nextjs-app-4
-  AZURE_CONTAINER_REGISTRY: dfberrynextreg
-  IMAGE_NAME: sourceboardnextjs
+  AZ_APP_NAME: dfberrycontainerapp-client
+  AZURE_GROUP_NAME: rust-axum-server
+  AZURE_CONTAINER_REGISTRY: dfberryregistry
+  IMAGE_NAME: client-source-board-nextjs
 on:
   # Automatically trigger it when detected changes in repo. Remove comments to enable
   #push:
@@ -12,7 +12,12 @@ on:
   #    [ main ]
 
   # Allow mannually trigger 
-  workflow_dispatch:      
+  workflow_dispatch:    
+      inputs:
+      branch:
+        description: 'Branch to run the workflow on'
+        required: true
+        default: 'dfberry/1002-fix-docker'  
 
 permissions:
   id-token: write
@@ -45,12 +50,13 @@ jobs:
         run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to Azure Container Registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: |
             ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           file: ./next-dockerfile
+          context: .
 
   deploy:
     runs-on: ubuntu-latest
