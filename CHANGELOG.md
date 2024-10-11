@@ -1,5 +1,9 @@
-
 # CHANGE LOG
+
+## 0.6.0
+
+- Update stats page with better layout and more stats
+
 
 ## 0.5.16
 

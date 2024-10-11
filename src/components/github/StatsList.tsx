@@ -3,6 +3,7 @@ import React, { useState, Suspense } from 'react';
 import { FaSort, FaArrowUp, FaArrowDown, FaSortNumericUp, FaSortNumericDown, FaSortNumericDownAlt, FaSortNumericUpAlt } from 'react-icons/fa';
 import { GitHubStatsResult } from '@/lib/github/stats'; // Adjust the import path as necessary
 import StatsCard from '@/components/github/Stats';
+import { FaCalendar, FaArchive, FaBoxOpen, FaGlobe, FaLock, FaQuestionCircle, FaCheckCircle, FaTimesCircle, FaStar, FaCodeBranch, FaEye, FaChartBar } from 'react-icons/fa';
 
 interface StatsListCardProps {
     reposStatsExtended: GitHubStatsResult[];
@@ -31,16 +32,25 @@ const StatsListCard: React.FC<StatsListCardProps> = ({ reposStatsExtended }) => 
         setSortConfig({ key, direction });
     };
     const getColumnClass = (key: string) => {
-        return sortConfig && sortConfig.key === key ? 'text-blue-500 font-bold' : 'text-gray-700';
+        if (sortConfig?.key === key) {
+            return sortConfig.direction === 'asc' ? 'text-orange-500' : 'text-orange-700';
+        }
+        return '';
+    };
+    const columnNames = {
+        health_percentage: 'Health Percentage',
+        stars: <span className="inline-flex items-center"><FaStar className="mr-2" />Stars</span>,
+        forks: <span className="inline-flex items-center"><FaCodeBranch className="mr-2" />Forks</span>,
+        watchers: <span className="inline-flex items-center"><FaEye className="mr-2" />Watchers</span>
     };
     return (
         <Suspense fallback={<p>Loading data...</p>}>
             <div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
-                <div className="grid grid-cols-6 gap-4 mb-4 bg-gray-200 p-2 rounded">
-                    {['forks', 'open_issues', 'watchers', 'stars', 'health_percentage', 'last_commit'].map((key: string) => (
-                        <div key={key} className="flex flex-col items-center">
+                <div className="grid grid-cols-4 gap-4 mb-4 bg-gray-200 p-2 rounded">
+                    {['health_percentage', 'stars', 'forks', 'watchers'].map((key: string) => (
+                        <div key={key} className="flex flex-col items-start w-full">
                             <button onClick={() => sortData(key, sortConfig?.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc')}>
-                                <span className={`text-lg ${getColumnClass(key)}`}>{key}</span>
+                                <span className={`text-lg ${getColumnClass(key)}`}>{columnNames[key]}</span>
                             </button>
                         </div>
                     ))}

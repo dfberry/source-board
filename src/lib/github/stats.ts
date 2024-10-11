@@ -9,12 +9,34 @@ export interface GitHubRepoCommunityMetrics {
   content_reports_enabled?: boolean;
 }
 
+export interface License {
+  key: string;
+  name: string;
+  node_id: string;
+  spdx_id: string;
+  url?: string; // Assuming Url is a string representation
+  html_url?: string; // Assuming Url is a string representation
+  description?: string;
+  implementation?: string;
+  permissions?: string[];
+  conditions?: string[];
+  limitations?: string[];
+  body?: string;
+  featured?: boolean;
+}
+
 export interface GitHubRepoStats {
   forks: number;
   open_issues: number;
   stars: number;
   watchers: number;
   last_commit: string;
+  archived?: boolean;
+  size?: number;
+  visibility?: string;
+  created_at?: string;
+  license?: License;
+  allow_auto_merge?: boolean;
 }
 
 export interface GitHubRepoStatsExtended {
