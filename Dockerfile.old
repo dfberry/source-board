@@ -1,0 +1,18 @@
+FROM node:20-alpine as build
+
+WORKDIR /app
+
+COPY package.json package-lock.* ./
+RUN npm install
+
+# Build the application
+COPY . .
+RUN npm run build
+
+# ====================================
+FROM build as release
+
+# Expose port 3000
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
