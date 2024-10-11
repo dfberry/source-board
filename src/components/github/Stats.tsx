@@ -12,6 +12,15 @@ interface StatsCardProps {
 const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) => {
 
     console.log(`componentOwner: ${ownerAndRepo}`);
+    const formatDateRange = (stats: GitHubRepoStats) => {
+        const formatDate = (date: string | undefined) => date ? new Date(date).toISOString().split('T')[0] : 'n/a';
+
+        return (
+            <p className="text-lg">
+                {formatDate(stats.created_at)} | {formatDate(stats.last_commit)}
+            </p>
+        );
+    };
 
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">
@@ -30,13 +39,13 @@ const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) =
                         <div className="flex flex-col w-1/2">
                             <div className="flex justify-between">
                                 <p className="text-lg font-semibold flex items-center"><FaCalendar className="mr-2" />Dates:</p>
-                                <p className="text-lg">{new Date(stats.created_at).toISOString().split('T')[0]} | {new Date(stats.last_commit).toISOString().split('T')[0]}</p>
+                                {formatDateRange(stats)}
                             </div>
                             <div className="flex justify-between">
                                 <p className="text-lg font-semibold">Archived:</p>
                                 <p className="text-lg flex items-center">
                                     {stats.archived ? <FaArchive className="mr-2" /> : <FaBoxOpen className="mr-2" />}
-                                    {stats.archived.toString()}
+                                    {stats.archived?.toString()}
                                 </p>
                             </div>
                             <div className="flex justify-between">
@@ -64,7 +73,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ ownerAndRepo, stats, metrics }) =
                                 <p className="text-lg font-semibold">Allow Auto Merge:</p>
                                 <p className="text-lg flex items-center">
                                     {stats.allow_auto_merge === null ? <FaQuestionCircle className="mr-2" /> : stats.allow_auto_merge ? <FaCheckCircle className="mr-2" /> : <FaTimesCircle className="mr-2" />}
-                                    {stats.allow_auto_merge !== null ? stats.allow_auto_merge.toString() : ''}
+                                    {stats.allow_auto_merge !== null ? stats.allow_auto_merge!.toString() : ''}
                                 </p>
                             </div>
                         </div>
