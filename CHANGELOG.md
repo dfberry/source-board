@@ -1,5 +1,13 @@
 # CHANGE LOG
 
+## 0.6.2
+
+- Stats: Move issue to sortable table
+
+## 0.6.1
+
+- Docker fix: change file to Dockerfile
+
 ## 0.6.0
 
 - Update stats page with better layout and more stats
