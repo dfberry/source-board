@@ -5,7 +5,9 @@
 
 - Log deploymet to Azure Storage Table
 
-## 0.6.1 fix deploy Dockerfile
+## 0.6.1
+
+- Docker fix: change file to Dockerfile
 
 ## 0.6.0
 
