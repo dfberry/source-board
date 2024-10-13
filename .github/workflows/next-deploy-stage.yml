@@ -92,6 +92,7 @@ jobs:
           inlineScript: |
             echo "Deployment to Azure Container App completed successfully"
             az storage entity insert \
+                --account-name ${{ env.AZURE_STORAGE_ACCOUNT_NAME }} \
                 --auth-mode key \
                 --account-key ${{ env.AZURE_STORAGE_ACCOUNT_KEY }} \
                 --table-endpoint ${{ env.AZURE_STORAGE_ACCOUNT_ENDPOINT }} \
