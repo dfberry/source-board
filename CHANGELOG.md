@@ -1,5 +1,8 @@
-
 # CHANGE LOG
+
+## 0.6.3
+
+- Update stats UI
 
 ## 0.6.2
 
