@@ -1,4 +1,11 @@
+
 # CHANGE LOG
+
+## 0.6.2
+
+- Log deploymet to Azure Storage Table
+
+## 0.6.1 fix deploy Dockerfile
 
 ## 0.6.0
 

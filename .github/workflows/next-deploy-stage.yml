@@ -1,0 +1,98 @@
+name: Deploy to Azure Container App
+
+env:
+  AZURE_CONTAINER_APP_NAME: dfberrycontainerapp-client-stage
+  AZURE_RESOURCE_GROUP_NAME: rust-axum-server
+  AZURE_CONTAINER_REGISTRY: dfberrynextreg
+  IMAGE_NAME: client-source-board-nextjs
+  AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+  AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+  AZURE_STORAGE_TABLE_NAME: ${{ secrets.AZURE_STORAGE_TABLE_NAME }}
+  AZURE_STORAGE_TABLE_PARTITION_KEY: ${{ secrets.AZURE_STORAGE_TABLE_PARTITION_KEY }}
+on:
+  # Automatically trigger it when detected changes in repo. Remove comments to enable
+  #push:
+  #  branches: 
+  #    [ main ]
+
+  # Allow mannually trigger 
+  workflow_dispatch:      
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v4
+
+      - name: Print out app version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "APP_VERSION=${VERSION}" >>${GITHUB_ENV}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Lowercase the repo name and username
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+      - name: Build and push container image to Azure Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Extract repository name
+        id: extract_repo
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Save image to environment variable
+        run: echo "IMAGE=${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+            az containerapp update -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} --image ${{ env.IMAGE }}
+```   
+      - name: Create Azure Storage Table row key
+        id: create_row_key
+        run: echo "ROW_KEY=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Log deployment to Azure Storage Table
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            echo "Deployment to Azure Container App completed successfully"
+            az storage entity insert --auth-mode key --table-name {{ $env.AZURE_STORAGE_TABLE_NAME}} \
+                --entity PartitionKey={{ $env.AZURE_STORAGE_TABLE_PARTITION_KEY }} RowKey={{ $env.ROW_KEY }} \
+                container_registry_name={{ $env.AZURE_CONTAINER_REGISTRY }} container_app_name={{ $env.AZURE_CONTAINER_APP_NAME }} \
+                image_name={{ $env.IMAGE_NAME }} image_tag={{ github.sha }} app_version={{ $env.APP_VERSION }} \
+                --if-exists FAIL --table-endpoint {{ $env.AZURE_STORAGE_ACCOUNT_ENDPOINT }}}}
+      
