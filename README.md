@@ -2,6 +2,8 @@
 
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/dfberry/source-board/badge)](https://scorecard.dev/viewer/?uri=github.com/dfberry/source-board)
 
+[Open source board](https://open-source-board.com/)
+
 ## Database
 
 Uses SQLite (`main.db`) database.
