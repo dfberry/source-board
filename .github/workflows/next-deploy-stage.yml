@@ -80,7 +80,7 @@ jobs:
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} --server ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
             az containerapp update -n ${{ env.AZURE_CONTAINER_APP_NAME }} -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} --image ${{ env.IMAGE }}
-```   
+   
       - name: Create Azure Storage Table row key
         id: create_row_key
         run: echo "ROW_KEY=$(date +%s)" >> $GITHUB_ENV

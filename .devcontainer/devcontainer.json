@@ -14,7 +14,9 @@
 				"mhutchie.git-graph",
 				"eamodio.gitlens",
 				"ms-azuretools.vscode-docker",
-				"GitHub.copilot-chat"
+				"GitHub.copilot-chat",
+				"github.vscode-github-actions",
+				"me-dutour-mathieu.vscode-github-actions"
 			]
 		}
 	},
