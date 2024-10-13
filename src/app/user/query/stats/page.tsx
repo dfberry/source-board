@@ -5,6 +5,9 @@ import UserWatchRepoService from "@/lib/db/userWatchRepo";
 import GitHubStatusService, { GitHubRepoStats, GitHubStatsResult } from "@/lib/github/stats";
 import StatsListCard from "@/components/github/StatsList";
 import GitHubUserService from '@/lib/github/user';
+import SecondHeader from '@/components/nav/header-second';
+
+
 export default async function QueryStatsPage() {
 
 	console.log("QueryStatsPage: Start");
@@ -40,8 +43,8 @@ export default async function QueryStatsPage() {
 
 	return (
 		<>
+			<SecondHeader pageName="Your repo stats" />
 			<Suspense fallback={<p>Loading data...</p>}>
-				<h1 className="text-2xl font-bold mb-4">Stats</h1>
 				<StatsListCard reposStatsExtended={reposStatsExtended} />
 			</Suspense>
 		</>

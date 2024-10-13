@@ -1,11 +1,16 @@
-
 # CHANGE LOG
+
+## 0.6.3
+
+- Update stats UI
 
 ## 0.6.2
 
 - Log deploymet to Azure Storage Table
 
-## 0.6.1 fix deploy Dockerfile
+## 0.6.1
+
+- Docker fix: change file to Dockerfile
 
 ## 0.6.0
 
