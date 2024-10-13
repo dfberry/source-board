@@ -6,6 +6,7 @@ env:
   AZURE_CONTAINER_REGISTRY: dfberrynextreg
   IMAGE_NAME: client-source-board-nextjs
   AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+  AZURE_STORAGE_ACCOUNT_ENDPOINT: ${{ secrets.AZURE_STORAGE_ACCOUNT_ENDPOINT }}
   AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
   AZURE_STORAGE_TABLE_NAME: ${{ secrets.AZURE_STORAGE_TABLE_NAME }}
   AZURE_STORAGE_TABLE_PARTITION_KEY: ${{ secrets.AZURE_STORAGE_TABLE_PARTITION_KEY }}
@@ -90,9 +91,11 @@ jobs:
         with:
           inlineScript: |
             echo "Deployment to Azure Container App completed successfully"
-            az storage entity insert --auth-mode key \
+            az storage entity insert \
+                --auth-mode key \
+                --table-endpoint ${{ env.AZURE_STORAGE_ACCOUNT_ENDPOINT }} \
                 --table-name ${{ env.AZURE_STORAGE_TABLE_NAME}} \
-                --if-exists FAIL --table-endpoint ${{ env.AZURE_STORAGE_ACCOUNT_ENDPOINT }} \
+                --if-exists FAIL \
                 --entity PartitionKey=${{ env.AZURE_STORAGE_TABLE_PARTITION_KEY }} RowKey=${{ env.ROW_KEY }} container_registry_name=${{ env.AZURE_CONTAINER_REGISTRY }} container_app_name=${{ env.AZURE_CONTAINER_APP_NAME }} image_name=${{ env.IMAGE_NAME }} image_tag=${{ github.sha }} app_version=${{ env.APP_VERSION }}
 
       
