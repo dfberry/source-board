@@ -1,4 +1,4 @@
-name: Deploy to Azure Container App
+name: Deploy Client to Stage
 
 env:
   AZURE_CONTAINER_APP_NAME: dfberrycontainerapp-client-stage
