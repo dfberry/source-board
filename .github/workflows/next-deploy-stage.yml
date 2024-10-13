@@ -90,9 +90,9 @@ jobs:
         with:
           inlineScript: |
             echo "Deployment to Azure Container App completed successfully"
-            az storage entity insert --auth-mode key --table-name {{ $env.AZURE_STORAGE_TABLE_NAME}} \
-                --entity PartitionKey={{ $env.AZURE_STORAGE_TABLE_PARTITION_KEY }} RowKey={{ $env.ROW_KEY }} \
-                container_registry_name={{ $env.AZURE_CONTAINER_REGISTRY }} container_app_name={{ $env.AZURE_CONTAINER_APP_NAME }} \
-                image_name={{ $env.IMAGE_NAME }} image_tag={{ github.sha }} app_version={{ $env.APP_VERSION }} \
-                --if-exists FAIL --table-endpoint {{ $env.AZURE_STORAGE_ACCOUNT_ENDPOINT }}}}
+            az storage entity insert --auth-mode key --table-name {{ env.AZURE_STORAGE_TABLE_NAME}} \
+                --entity PartitionKey={{ env.AZURE_STORAGE_TABLE_PARTITION_KEY }} RowKey={{ $env.ROW_KEY }} \
+                container_registry_name={{ env.AZURE_CONTAINER_REGISTRY }} container_app_name={{ env.AZURE_CONTAINER_APP_NAME }} \
+                image_name={{ env.IMAGE_NAME }} image_tag={{ github.sha }} app_version={{ env.APP_VERSION }} \
+                --if-exists FAIL --table-endpoint {{ env.AZURE_STORAGE_ACCOUNT_ENDPOINT }}}}
       
