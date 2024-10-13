@@ -1,4 +1,4 @@
-name: Deploy Client to Stage
+name: Deploy Client to ACA Stage
 
 env:
   AZURE_CONTAINER_APP_NAME: dfberrycontainerapp-client-stage
