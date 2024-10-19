@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.0.0
+
+- Schema changes
+
 ## 0.6.3
 
 - Update stats UI

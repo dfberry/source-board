@@ -43,17 +43,17 @@ export interface GitHubUser2 {
 }
 
 export default class GitHubUserService {
-  static async getGithHubUserByUnencryptedAccessToken(
-    unencryptedAccessToken: string,
+  static async getGithHubUserByAccessToken(
+    accessToken: string,
   ): Promise<GitHubUser> {
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
-        Authorization: `Bearer ${unencryptedAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
     console.log(
-      `getGithHubUserByUnencryptedAccessToken: ${JSON.stringify(githubUser)}`,
+      `getGithHubUserByAccessToken: ${JSON.stringify(githubUser)}`,
     );
     return githubUser;
   }
@@ -68,7 +68,7 @@ export default class GitHubUserService {
       sessionResult.session.userId,
     );
     console.log(
-      `getGithHubUserBySessionResult decrypted accessToken: ${accessToken}`,
+      `getGithHubUserBySessionResult accessToken: ${accessToken}`,
     );
     if (!accessToken)
       throw new Error("getGithHubUserBySessionResult: No access token found");
