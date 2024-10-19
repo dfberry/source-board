@@ -133,6 +133,8 @@ export async function githubAuthenticationCallback(
       },
     });
     const githubUser = await githubUserResponse.json();
+    console.log(`githubUser: ${JSON.stringify(githubUser)}`);
+    
     const existingDbUser = await getDbUserByGithubId(githubUser.id);
 
     // users exists in database
