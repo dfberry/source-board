@@ -143,9 +143,10 @@ curl -H "Accept: application/vnd.github.v3+json" \
 */
 
 export default class GitHubRepoIssues {
-  static async fetchIssues(
+  static async fetch(
     params: FetchIssuesParams,
     accessToken: string,
+    
   ): Promise<GitHubIssue[]> {
     const {
       repo,
@@ -181,7 +182,27 @@ export default class GitHubRepoIssues {
     }
 
     const data: GitHubIssue[] = await response.json();
-    //console.log('GitHubRepoIssues.fetchIssues', { data });
     return data;
+  }
+  static async fetchIssues(
+    params: FetchIssuesParams,
+    accessToken: string,
+    
+  ): Promise<GitHubIssue[]> {
+    
+    const issuesAndPrs = await GitHubRepoIssues.fetch(params, accessToken);
+    const issues = issuesAndPrs.filter((issue) => !issue.pull_request);
+    return issues;
+
+  }
+  static async fetchPrs(
+    params: FetchIssuesParams,
+    accessToken: string,
+    
+  ): Promise<GitHubIssue[]> {
+      
+      const issuesAndPrs = await GitHubRepoIssues.fetch(params, accessToken);
+      const prs = issuesAndPrs.filter((issue) => issue.pull_request);
+      return prs;
   }
 }

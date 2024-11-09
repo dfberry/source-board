@@ -1,3 +1,6 @@
+import useRequireAuth from "@/hooks/useRequireAuth";
+import { GetServerSideProps } from 'next';
+
 export default async function HomePage() {
 
 	return (
@@ -8,4 +11,3 @@ export default async function HomePage() {
 		</div>
 	);
 }
-

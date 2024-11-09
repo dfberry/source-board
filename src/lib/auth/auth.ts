@@ -103,28 +103,40 @@ export async function githubAuthenticationCallback(
 ): Promise<Response> {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
+  console.log(`step 1 - code: ${code}`);
+
   const state = url.searchParams.get("state");
+  console.log(`step 1 - state: ${state}`);
 
-  //const storedState = cookies().get("github_oauth_state")?.value ?? null;
-  const storedState = SessionService.getStoredState("github_oauth_state");
-
-  console.log(`code: ${code}`);
-  console.log(`state: ${state}`);
-  console.log(`storedState: ${storedState}`);
-
-  if (!code || !state || !storedState || state !== storedState) {
+if (!code || !state ) {
     console.log(
-      `returning 400 - code: ${code}, state: ${state}, storedState: ${storedState}`,
+      `returning 400 - code: ${code}, state: ${state}`,
     );
     return new Response(
-      `returning 400 - code: ${code}, state: ${state}, storedState: ${storedState}`,
+      `returning 400 - code: ${code}, state: ${state}`,
+      { status: 400 },
+    );
+  } else {
+    console.log(`first part of auth is complete`);
+  }
+
+  // if this fails make sure redir is back to same domain
+  const storedState = SessionService.getStoredState("github_oauth_state");
+  console.log(`cookie storedState: ${storedState}`);
+
+  if (!storedState || state !== storedState) {
+    console.log(
+      `returning 400 - storedState: ${storedState}`,
+    );
+    return new Response(
+      `returning 400 - storedState: ${storedState}`,
       { status: 400 },
     );
   }
 
   try {
     const tokens = await github.validateAuthorizationCode(code);
-    console.log("tokens", tokens);
+    console.log("validateAuthorizationCode tokens", tokens);
 
     // get user by token to prove user exists and token works
     const githubUserResponse = await fetch("https://api.github.com/user", {
@@ -133,7 +145,7 @@ export async function githubAuthenticationCallback(
       },
     });
     const githubUser = await githubUserResponse.json();
-    console.log(`githubUser: ${JSON.stringify(githubUser)}`);
+    console.log(`githubUser exists: ${JSON.stringify(githubUser)}`);
     
     const existingDbUser = await getDbUserByGithubId(githubUser.id);
 

@@ -2,6 +2,7 @@ import useRequireAuth from "@/hooks/useRequireAuth";
 import { getDbTokenByDbUserId } from "@/lib/db/db";
 import GitHubRepoIssues, { FetchIssuesParams, GitHubIssue } from "@/lib/github/repos";
 import IssueCard from "@/components/github/Issue";
+import PrCard from "@/components/github/Pr";
 import { getLastDaysRange } from '@/lib/datetime';
 import { Suspense } from "react";
 import UserWatchRepoService from "@/lib/db/userWatchRepo";
@@ -56,26 +57,30 @@ export default async function QueryReposPage({ params }: QueryReposPageProps) {
 		// direction: 'asc'
 	};
 
-	const items = await GitHubRepoIssues.fetchIssues(fetchIssuesParams, accessToken);
-
-	//console.log("QueryPage: Items", items);
-	if (!items || (Array.isArray(items) && items.length === 0)) {
-		console.log("QueryPage: No items");
-		return (
-			<>
-				<h1 className="text-2xl font-bold mb-4">{fetchIssuesParams.repo}</h1>
-				<p className="container mx-auto p-4 bg-white shadow-md rounded-lg">No issues</p>
-			</>
-		);
-	}
+	const issues = await GitHubRepoIssues.fetchIssues(fetchIssuesParams, accessToken);
+	const prs = await GitHubRepoIssues.fetchPrs(fetchIssuesParams, accessToken);
 
 	return (
 		<>
-			<Suspense fallback={<p>Loading data...</p>}>
-				<h1 className="text-2xl font-bold mb-4">{fetchIssuesParams.repo}</h1>
+			<div className="flex justify-center mt-4 space-x-4 mb-5">
+				<a href="#issues" className="px-4 py-2 bg-green-500 text-white rounded-lg">Issues</a>
+				<a href="#prs" className="px-4 py-2 bg-green-500 text-white rounded-lg">Pull Requests</a>
+			</div>
+			<Suspense fallback={<p>Loading issues...</p>}>
+				<h1 id="issues" className="text-2xl bg-green-300 text-center">{fetchIssuesParams.repo}</h1>
+				<h2 className="text-2xl bg-green-300 text-center text-gray-500">issues</h2>
 				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
-					{items.map((issue) => (
+					{issues.map((issue) => (
 						<IssueCard key={issue.id} issue={issue} showRepoNameEachRow={false} />
+					))}
+				</div>
+			</Suspense>
+			<Suspense fallback={<p>Loading prs...</p>}>
+				<h1 id="prs" className="text-2xl bg-green-300 text-center">{fetchIssuesParams.repo}</h1>
+				<h2 className="text-2xl bg-green-300 text-center text-gray-500">prs</h2>
+				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
+					{prs.map((pr) => (
+						<IssueCard key={pr.id} issue={pr} showRepoNameEachRow={false} />
 					))}
 				</div>
 			</Suspense>

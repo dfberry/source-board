@@ -15,6 +15,11 @@ const IssueCard: React.FC<IssueCardProps> = ({ issue, showRepoNameEachRow }) => 
 
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">
+            {showRepoNameEachRow && <div className="text-center mb-4">
+                <a href={issue.repository_url} target="_blank" rel="noopener noreferrer" className="text-gray-600">
+                    {orgOrUser}/{repoName}
+                </a>
+            </div>}
             <header className="mb-4 flex justify-between items-center">
                 <div>
                     <h2 className="text-xl font-bold text-blue-600">
