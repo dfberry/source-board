@@ -21,7 +21,7 @@ const HeaderSecure = () => {
                         <Link href="/user/query/pr">
                             PRs
                         </Link>
-                        <Link href="/user/query/stats">
+                        <Link href="/user/query/repos">
                             Watched repos
                         </Link>
                         <Link href="/user/query/stats">
