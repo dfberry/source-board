@@ -16,7 +16,8 @@
 				"ms-azuretools.vscode-docker",
 				"GitHub.copilot-chat",
 				"github.vscode-github-actions",
-				"me-dutour-mathieu.vscode-github-actions"
+				"me-dutour-mathieu.vscode-github-actions",
+				"humao.rest-client"
 			]
 		}
 	},
