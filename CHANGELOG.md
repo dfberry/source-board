@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.1.0
+
+- User token sent to BE requests
+
 ## 1.0.0
 
 - Schema changes

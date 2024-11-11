@@ -123,6 +123,7 @@ export default class GitHubIssuesService extends GitHubServiceBase {
     );
     const body = {
       query: `${githubUserId} is:issue`,
+      token: accessToken,
     };
     console.log(`GitHubIssuesService.queryIssues: body=${body}`);
 
