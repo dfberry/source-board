@@ -124,7 +124,7 @@ export default class GitHubIssuesService extends GitHubServiceBase {
     const body = {
       query: `${githubUserId} is:issue`,
     };
-    console.log(`GitHubIssuesService.queryIssues: body=${body}`);
+    console.log(`GitHubIssuesService.queryIssues: body=${JSON.stringify(body)}`);
 
     const url = `${process.env.BACKEND_URL}/github/query/issue`;
     console.log(`GitHubPrsService.queryIssues: url=${url}`);

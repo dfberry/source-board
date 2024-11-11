@@ -58,7 +58,6 @@ export default async function QueryReposPage({ params }: QueryReposPageProps) {
 	};
 
 	const issues = await GitHubRepoIssues.fetchIssues(fetchIssuesParams, accessToken);
-	const prs = await GitHubRepoIssues.fetchPrs(fetchIssuesParams, accessToken);
 
 	return (
 		<>
@@ -72,15 +71,6 @@ export default async function QueryReposPage({ params }: QueryReposPageProps) {
 				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
 					{issues.map((issue) => (
 						<IssueCard key={issue.id} issue={issue} showRepoNameEachRow={false} />
-					))}
-				</div>
-			</Suspense>
-			<Suspense fallback={<p>Loading prs...</p>}>
-				<h1 id="prs" className="text-2xl bg-green-300 text-center">{fetchIssuesParams.repo}</h1>
-				<h2 className="text-2xl bg-green-300 text-center text-gray-500">prs</h2>
-				<div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
-					{prs.map((pr) => (
-						<IssueCard key={pr.id} issue={pr} showRepoNameEachRow={false} />
 					))}
 				</div>
 			</Suspense>
