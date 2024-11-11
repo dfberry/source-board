@@ -69,6 +69,7 @@ export default class GitHubStatusService extends GitHubServiceBase {
     }
     const body = {
       repos: reposList,
+      token: accessToken,
     };
     console.log(
       `GitHubStatusService.queryStatus: body=${JSON.stringify(body)}`,

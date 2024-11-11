@@ -207,6 +207,7 @@ export default class GitHubPrsService extends GitHubServiceBase {
 
     const body = {
       query: `${githubUserId} is:pr`,
+      token: accessToken,
     };
     console.log(
       `GitHubIssuesService.queryIssues: body=${JSON.stringify(body)}`,
