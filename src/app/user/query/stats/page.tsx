@@ -43,7 +43,7 @@ export default async function QueryStatsPage() {
 
 	return (
 		<>
-			<SecondHeader pageName="Your repo stats" />
+			<SecondHeader pageName="Stats" />
 			<Suspense fallback={<p>Loading data...</p>}>
 				<StatsListCard reposStatsExtended={reposStatsExtended} />
 			</Suspense>

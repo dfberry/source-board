@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import AuthButton from './auth';
+import LogOut from '@/components/SignOut';
 
-const Header = () => {
+const HeaderSecure = () => {
 
     return (
         <header className="bg-green-600 text-white p-4 border-green-500">
@@ -20,15 +21,20 @@ const Header = () => {
                         <Link href="/user/query/pr">
                             PRs
                         </Link>
+                        <Link href="/user/query/repos">
+                            Watched repos
+                        </Link>
                         <Link href="/user/query/stats">
-                            Repos
+                            Watched stats
                         </Link>
                     </nav>
                 </div>
-
+                <div className="flex items-center">
+                    <LogOut />
+                </div>
             </div>
         </header>
     );
 };
 
-export default Header;
+export default HeaderSecure;

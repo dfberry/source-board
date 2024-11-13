@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.2.0
+
+- Consistent 2nd header and other UI tweaks
+
 ## 1.1.0
 
 - User token sent to BE requests
