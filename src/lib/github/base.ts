@@ -20,9 +20,8 @@ export default class GitHubServiceBase {
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      console.error(`GitHub API request failed: ${response.statusText}`);
-      //throw new Error(`GitHub API request failed: ${response.statusText}`);
-      return [];
+      console.error(`GitHub API request failed for ${url} ${accessToken}: ${response.statusText}`);
+      throw new Error(`GitHub API request failed for: ${response.statusText}`);
     }
 
     return response.json();

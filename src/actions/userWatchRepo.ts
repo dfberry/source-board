@@ -27,22 +27,25 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
   }
   const accessToken = await getDbTokenByDbUserId(session?.userId);
 
-  // verify repo exists
-  const repo = await GitHubRepoService.repoInfo(accessToken!, orgAndRepo);
-  if (!repo || repo.length === 0) {
-    return { message: "Repo not found" };
-  }
+
 
 
   // add repo to db
   try {
+
+    // verify repo exists
+    const repo = await GitHubRepoService.repoInfo(accessToken!, orgAndRepo);
+    if (!repo || repo.length === 0) {
+      return { message: "Repo not found" };
+    }
+
     await UserWatchRepoService.create(session?.userId, orgAndRepo);
   } catch (e) {
     if(e instanceof Error) {
       if(e.message.includes("duplicate key value")) {
-        return { message: "Repo already added." };
+        return { message: "CreateNewRepoToWatch - Repo already added." };
       } else {
-        return { message: e.message };
+        return { message: "CreateNewRepoToWatch ${e.message}" };
       }
       
     } else {
