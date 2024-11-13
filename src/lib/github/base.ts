@@ -24,7 +24,10 @@ export default class GitHubServiceBase {
     if (!response.ok) {
       console.error(`GitHub API request failed for ${url} ${accessToken}: ${response.statusText}`);
       throw new Error(`GitHub API request failed for: ${response.statusText}`);
+    } else {
+      console.log(`GitHub API request succeeded for ${url} ${accessToken} ${response.status}`);
     }
+
 
     return response.json();
   }
