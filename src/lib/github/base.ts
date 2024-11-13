@@ -17,13 +17,17 @@ export default class GitHubServiceBase {
       options.body = JSON.stringify(body);
     }
 
+    console.log(`GitHubServiceBase.fetchFromGitHub: ${url} ${accessToken}`);
+    console.log(`GitHubServiceBase.fetchFromGitHub: options: ${JSON.stringify(options)}`);
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      console.error(`GitHub API request failed: ${response.statusText}`);
-      //throw new Error(`GitHub API request failed: ${response.statusText}`);
-      return [];
+      console.error(`GitHub API request failed for ${url} ${accessToken}: ${response.statusText}`);
+      throw new Error(`GitHub API request failed for: ${response.statusText}`);
+    } else {
+      console.log(`GitHub API request succeeded for ${url} ${accessToken} ${response.status}`);
     }
+
 
     return response.json();
   }

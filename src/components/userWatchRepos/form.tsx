@@ -26,7 +26,7 @@ function validateRepoUrl(orgRepo: string): { success: boolean, repo?: string, er
                 console.error(`Validation error: ${error.message}`);
             });
         } else {
-            console.error("Unexpected error:", e);
+            console.error("Validation unexpected error:", e);
         }
         return { success: false, error: e };
     }

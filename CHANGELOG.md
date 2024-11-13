@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.2.1
+
+- Fix: Add repo form is failing on verify repo with GitHub
+
 ## 1.2.0
 
 - Consistent 2nd header and other UI tweaks
