@@ -17,6 +17,8 @@ export default class GitHubServiceBase {
       options.body = JSON.stringify(body);
     }
 
+    console.log(`GitHubServiceBase.fetchFromGitHub: ${url} ${accessToken}`);
+    console.log(`GitHubServiceBase.fetchFromGitHub: options: ${JSON.stringify(options)}`);
     const response = await fetch(url, options);
 
     if (!response.ok) {
