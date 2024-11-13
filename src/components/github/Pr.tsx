@@ -4,9 +4,10 @@ import { GitHubPullRequest } from '@/lib/github/prs'; // Adjust the import path 
 interface PrCardProps {
     pr: GitHubPullRequest;
     componentOwner: string;
+    showRepoNameEachRow: boolean;
 }
 
-const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner }) => {
+const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner, showRepoNameEachRow }) => {
 
     const repoUrlParts = pr.html_url.split('/');
     const orgOrUser = repoUrlParts[3];
@@ -15,6 +16,11 @@ const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner }) => {
 
     return (
         <article className="border rounded-lg p-4 shadow-md bg-white">
+            {showRepoNameEachRow && <div className="text-center mb-4">
+                <a href={pr.issue_url} target="_blank" rel="noopener noreferrer" className="text-gray-600">
+                    {orgOrUser}/{repoName}
+                </a>
+            </div>}
             <header className="mb-4 flex justify-between items-center">
                 <div>
                     <h2 className="text-xl font-bold text-blue-600">
@@ -63,7 +69,7 @@ const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner }) => {
                     </div>
                 </Suspense>
             </footer>
-            {componentOwner == undefined && <div className="mt-4 pt-4 border-t border-gray-200">
+            {/*componentOwner == undefined && <div className="mt-4 pt-4 border-t border-gray-200">
                 <p className="text-sm text-gray-500">
                     <a href={`https://github.com/${orgOrUser}`} target="_blank" rel="noopener noreferrer" className="text-blue-600">
                         {orgOrUser}
@@ -72,7 +78,7 @@ const PrCard: React.FC<PrCardProps> = ({ pr, componentOwner }) => {
                         {repoName}
                     </a>
                 </p>
-            </div>}
+            </div>*/}
         </article>
     );
 };

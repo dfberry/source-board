@@ -3,6 +3,7 @@ import WatchedReposListComponent from '@/components/userWatchRepos/list';
 import UserWatchRepoService from '@/lib/db/userWatchRepo';
 import NewRepoToWatchForm from '@/components/userWatchRepos/form';
 import { Suspense } from 'react';
+import SecondHeader from '@/components/nav/header-second';
 
 const getData = async (userId: string) => {
 
@@ -27,7 +28,7 @@ export default async function RepoListPage() {
 
 	return (
 		<>
-			<h1>Watched Repositories</h1>
+			<SecondHeader pageName="Repos I watch" />
 			<Suspense fallback={<p>Loading data...</p>}>
 				<WatchedReposListComponent user={user} session={session} repos={repos} enableCreate={true} enableDelete={true} enableReportLink={false} />
 			</Suspense>

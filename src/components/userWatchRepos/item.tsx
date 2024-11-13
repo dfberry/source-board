@@ -23,13 +23,15 @@ const UserWatchRepoItemComponent = ({ item, enableDelete, enableReportLink }: Pr
                 <span className="flex-1 text-gray-800 font-medium">{item.repoName}</span>
                 <div className="flex space-x-2">
                     {enableReportLink && (
-                        <Link
-                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700 transition-colors"
-                            href={`/user/query/repos/${item.id}`}>
+                        <div>
+                            <Link
+                                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700 transition-colors"
+                                href={`/user/query/repos/${item.id}`}>
 
-                            Report
+                                Issues and Prs
 
-                        </Link>
+                            </Link>
+                        </div>
                     )}
                     {enableDelete && (
                         <button
