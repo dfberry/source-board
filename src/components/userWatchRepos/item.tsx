@@ -26,7 +26,7 @@ const UserWatchRepoItemComponent = ({ item, enableDelete, enableReportLink }: Pr
                         <div>
                             <Link
                                 className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700 transition-colors"
-                                href={`/user/query/repos/${item.id}`}>
+                                href={`/user/watched/${item.id}`}>
 
                                 Issues and Prs
 

@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.2.2
+
+- Feature: Breadcrumb naviation
+
 ## 1.2.1
 
 - Fix: Add repo form is failing on verify repo with GitHub

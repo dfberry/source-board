@@ -51,7 +51,8 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 					</div>
 					<div className="flex justify-between items-center mt-4">
 
-						<Link prefetch={false} href={`/user/settings/repo`} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Configure</Link>
+						<Link prefetch={false} href={`/user/settings`
+						} className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Configure</Link>
 						<SignOutComponent />
 					</div>
 					<div id="repos" className="mt-6 bg-blue-500 p-4 rounded-lg grid grid-cols-3 gap-4">
@@ -72,10 +73,10 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 					<div className="my-data bg-white shadow-md rounded-lg p-4 w-1/3">
 						<h2 className="text-xl font-semibold mb-4 text-center">My Data</h2>
 						<div className="flex flex-col">
-							<Link prefetch={false} href={`/user/query/issues`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
+							<Link prefetch={false} href={`/user/issues-i-created`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
 								<span>Issues</span>
 							</Link>
-							<Link prefetch={false} href={`/user/query/pr`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
+							<Link prefetch={false} href={`/user/prs-i-created`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
 								<span>PRs</span>
 							</Link>
 						</div>
@@ -83,10 +84,10 @@ export default function ProfileComponent({ session, user, githubProfile }: Profi
 					<div className="my-repos bg-white shadow-md rounded-lg p-4 w-1/3">
 						<h2 className="text-xl font-semibold mb-4 text-center">Watching Repos</h2>
 						<div className="flex flex-col">
-							<Link prefetch={false} href={`/user/query/repos`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
+							<Link prefetch={false} href={`/user/watched`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center mb-2">
 								<span>Repos</span>
 							</Link>
-							<Link prefetch={false} href={`/user/query/stats`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
+							<Link prefetch={false} href={`/user/watched/stats`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
 								<span>Stats</span>
 							</Link>
 						</div>
