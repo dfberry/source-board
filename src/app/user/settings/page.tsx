@@ -1,11 +1,21 @@
 import useRequireAuth from '@/hooks/useRequireAuth';
-import ProfileComponent from '@/components/Profile';
-import GitHubUserService from '@/lib/github/user';
+import WatchedReposListComponent from '@/components/userWatchRepos/list';
+import UserWatchRepoService from '@/lib/db/userWatchRepo';
+import NewRepoToWatchForm from '@/components/userWatchRepos/form';
 import { Suspense } from 'react';
+import SecondHeader from '@/components/nav/header-second';
 
-export default async function ProfilePage() {
+const getData = async (userId: string) => {
 
-	console.log("ProfilePage: Start");
+	const userWatchRepos = await UserWatchRepoService.listByUserId(userId);
+
+	console.log(userWatchRepos);
+	return userWatchRepos;
+}
+
+export default async function RepoListPage() {
+
+	//console.log("RepoListPage: Start");
 
 	const { user, session, isAuthorized } = await useRequireAuth();
 	if (!isAuthorized) {
@@ -14,14 +24,12 @@ export default async function ProfilePage() {
 	} else {
 		console.log("ProfilePage: Authorized");
 	}
-
-	const userProfile = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
-	//console.log(`ProfilePage userProfile: ${JSON.stringify(userProfile)}`);
+	const repos = await getData(session?.userId!);
 
 	return (
 		<>
 			<Suspense fallback={<p>Loading data...</p>}>
-				<ProfileComponent session={session} user={user} githubProfile={userProfile} />
+				<WatchedReposListComponent user={user} session={session} repos={repos} enableCreate={true} enableDelete={true} enableReportLink={false} />
 			</Suspense>
 		</>
 	);

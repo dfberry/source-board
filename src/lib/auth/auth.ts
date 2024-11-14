@@ -146,7 +146,7 @@ export async function githubAuthenticationCallback(
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/user/settings",
+          Location: "/user",
         },
       });
     }
@@ -165,7 +165,7 @@ export async function githubAuthenticationCallback(
     return new Response(null, {
       status: 302,
       headers: {
-        Location: "/user/settings",
+        Location: "/user",
       },
     });
   } catch (e: unknown) {
