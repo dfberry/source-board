@@ -9,6 +9,7 @@ export default class GitHubServiceBase {
       headers: {
         Authorization: `token ${accessToken}`,
         "Content-Type": "application/json",
+        'User-Agent': 'open-source-board.com',
       },
       method,
     };
@@ -21,8 +22,13 @@ export default class GitHubServiceBase {
     console.log(`GitHubServiceBase.fetchFromGitHub: options: ${JSON.stringify(options)}`);
     const response = await fetch(url, options);
 
+    response.headers.forEach((value, key) => {
+      console.log(`GitHub API request failed for ${url} ${accessToken}: ${key} ${value}`);
+    });
+
     if (!response.ok) {
       console.error(`GitHub API request failed for ${url} ${accessToken}: ${response.statusText}`);
+
       throw new Error(`GitHub API request failed for: ${response.statusText}`);
     } else {
       console.log(`GitHub API request succeeded for ${url} ${accessToken} ${response.status}`);

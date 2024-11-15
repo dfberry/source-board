@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.2.3
+
+- Feature: /user/rate-limit - Github rate limit
+
 ## 1.2.2
 
 - Feature: Breadcrumb naviation
