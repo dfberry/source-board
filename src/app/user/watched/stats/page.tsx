@@ -6,7 +6,7 @@ import GitHubStatusService, { GitHubRepoStats, GitHubStatsResult } from "@/lib/g
 import StatsListCard from "@/components/github/StatsList";
 import GitHubUserService from '@/lib/github/user';
 import SecondHeader from '@/components/nav/header-second';
-
+import ServerApiUserWatchService from '@/lib/backend/db-user';
 
 export default async function QueryStatsPage() {
 
@@ -25,21 +25,28 @@ export default async function QueryStatsPage() {
 		return null;
 	}
 	const { login } = await GitHubUserService.getGithHubUserBySessionResult({ session, user });
-	const repoRows = await UserWatchRepoService.listByUserId(session.userId);
-	console.log("QueryStatsPage: repos=", repoRows);
+	const userWatchRepoResponse = await ServerApiUserWatchService.listWatchesByUser(session.userId, 1, 50);
+	let reposStatsExtended = [] as GitHubStatsResult[];
 
-	const repoNames = repoRows.map((row) => row.repoName);
 
-	const reposStats = await GitHubStatusService.queryStatus(accessToken, login, repoNames);
-	console.log("QueryStatsPage: reposStats=", reposStats);
+	if (userWatchRepoResponse && userWatchRepoResponse?.watches) {
 
-	// add metrics.health_percentage to each repo stats and provide a new type for it
-	const reposStatsExtended = reposStats.map((repoStats) => {
-		return {
-			...repoStats,
-			stats: { ...repoStats.stats, health_percentage: repoStats.metrics.health_percentage },
-		}
-	});
+		//const repoRows = await UserWatchRepoService.listByUserId(session.userId);
+		console.log("QueryStatsPage: repos=", userWatchRepoResponse?.watches);
+
+		const repoNames = userWatchRepoResponse?.watches?.map((row) => row.repo_name);
+
+		const reposStats = await GitHubStatusService.queryStatus(accessToken, login, repoNames);
+		console.log("QueryStatsPage: reposStats=", reposStats);
+
+		// add metrics.health_percentage to each repo stats and provide a new type for it
+		reposStatsExtended = reposStats.map((repoStats) => {
+			return {
+				...repoStats,
+				stats: { ...repoStats.stats, health_percentage: repoStats.metrics.health_percentage },
+			}
+		});
+	}
 
 	return (
 		<>

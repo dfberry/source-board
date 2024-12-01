@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 1.2.4
+
+- User config settings uses backend server instead of directly talking to db
+
 ## 1.2.3
 
 - Feature: /user/rate-limit - Github rate limit
