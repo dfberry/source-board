@@ -4,6 +4,8 @@ import GitHubRepoService from "@/lib/github/repo";
 import { getDbTokenByDbUserId } from "@/lib/db/db";
 import { revalidatePath } from "next/cache";
 import useRequireAuth from "@/hooks/useRequireAuth";
+import ServerApiUserWatchService from "@/lib/backend/db-user";
+
 
 export type CreateNewRepoResponse = { message: string } | void;
 
@@ -39,7 +41,8 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
       return { message: "Repo not found" };
     }
 
-    await UserWatchRepoService.create(session?.userId, orgAndRepo);
+    await ServerApiUserWatchService.createWatchForUser(session?.userId, orgAndRepo);
+    //await UserWatchRepoService.create(session?.userId, orgAndRepo);
   } catch (e) {
     if(e instanceof Error) {
       if(e.message.includes("duplicate key value")) {
@@ -57,6 +60,8 @@ export const CreateNewRepoToWatch = async (orgAndRepo: string): Promise<CreateNe
   revalidatePath("/user/repos");
 };
 export const DeleteRepoToWatch = async (id: string) => {
-  await UserWatchRepoService.delete(id);
+  const { user, session, isAuthorized } = await useRequireAuth();
+  await ServerApiUserWatchService.deleteWatchForUser(session?.userId!, id);
+  //await UserWatchRepoService.delete(id);
   revalidatePath("/user/repos");
 };

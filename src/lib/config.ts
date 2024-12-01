@@ -7,4 +7,5 @@ export const CONFIG = {
   GH_OAUTH_STATE: process.env.GH_OAUTH_STATE!,
   TEST_ENV: process.env.TEST_ENV!,
   MY_ENV: process.env.MY_ENV!,
+  BACKEND_URL: process.env.BACKEND_URL!,
 };

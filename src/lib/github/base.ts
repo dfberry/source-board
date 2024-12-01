@@ -27,9 +27,14 @@ export default class GitHubServiceBase {
     });
 
     if (!response.ok) {
-      console.error(`GitHub API request failed for ${url} ${accessToken}: ${response.statusText}`);
+      console.error(`GitHub API request failed with ${response.statusText} for ${url} ${accessToken}: `);
 
-      throw new Error(`GitHub API request failed for: ${response.statusText}`);
+      if(response.statusText.toLowerCase() === "unauthorized") {
+        console.error(`GitHub API request failed authorization for ${url} ${accessToken}: `);
+        return Promise.reject(new Error("Unauthorized"));
+      }
+
+      throw new Error(`GitHub API request failed with: ${response.statusText}`);
     } else {
       console.log(`GitHub API request succeeded for ${url} ${accessToken} ${response.status}`);
     }

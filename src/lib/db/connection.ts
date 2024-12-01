@@ -7,4 +7,5 @@ const connectionString = process.env.DB_URL!;
 const pool = new pg.Pool({
   connectionString: connectionString,
 });
+console.log("DB_URL", connectionString);
 export const db = drizzle(pool);
